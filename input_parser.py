@@ -15,12 +15,17 @@ def contains_city_name(user_input):
     Returns city_name or None if the city name is not found
     """
 
-    regex = re.compile(r'.*weather.*in (?P<city_name>[a-z]+).*', re.I | re.S)
-    match = regex.match(user_input)
-    
+    regex = re.compile(r'.*weather.*in\s+(?P<city_name>[a-z]+).*', re.I | re.S)
+    match = regex.match(user_input)    
     if match:
-        return match.group('city_name'))
+        return match.group('city_name')
 
+    regex = re.compile(r'(.* |^)(?P<city_name>[a-z]+)\s+weather.*', re.I | re.S)
+    match = regex.match(user_input)    
+    if match:
+        return match.group('city_name')
+
+    
     return None
 
 
@@ -33,7 +38,9 @@ def determine_response(user_input):
     #     return get_by_lat_lon(params)
 
     params = contains_city_name(user_input)
-    if contains_city_name(user_input):
+
+    if params:
+        print(params)
         return get_by_city_name(params)
 
 
