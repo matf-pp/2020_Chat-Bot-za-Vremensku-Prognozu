@@ -30,7 +30,7 @@ def contains_city_name(user_input):
     return None
 
 def contains_lat_lon(user_input):
-    regex = re.compile(r'.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}).*', REGEX_FLAGS)
+    regex = re.compile(r'.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
         return (match.group('lat'), match.group('lon'))
