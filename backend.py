@@ -1,42 +1,40 @@
 from urllib.parse import urljoin
 import requests
-import json
-import math
 import os
 from dotenv import load_dotenv
+from json_parser import parse_json
 
 load_dotenv()
+
 KEY = os.getenv("KEY")
 URL = os.getenv("URL")
 
-def get_weather_info(JSON):
-    lat        =  JSON["coord"]["lon"]
-    lon        =  JSON["coord"]["lat"] 
-    weather    =  JSON["weather"][0]["description"]
-    temp       =  round(JSON["main"]["temp"] - 273.15, 2)
-    feels_like =  round(JSON["main"]["feels_like"] - 273.15, 2)
-    temp_min   =  round(JSON["main"]["temp_min"] - 273.15,2 )
-    temp_max   =  round(JSON["main"]["temp_max"] - 273.15, 2)
-    pressure   =  JSON["main"]["pressure"]
-    humidity   =  JSON["main"]["humidity"]
-    name = JSON["name"]
+KELVIN_TO_DEGREES_CONST = 273.15
+PRECISION = 2
 
-    return {"name": name, "lat": lat, "lon": lon, "weather": weather, "temp": temp, "feels_like": feels_like, 
-            "temp_min": temp_min, "temp_max": temp_max, "pressure": pressure, "humidity": humidity}
+def kelvins_to_degrees(obj):
+    obj.main.temp       = round(obj.main.temp - KELVIN_TO_DEGREES_CONST, PRECISION)
+    obj.main.feels_like = round(obj.main.feels_like - KELVIN_TO_DEGREES_CONST, PRECISION)
+    obj.main.temp_min   = round(obj.main.temp_min - KELVIN_TO_DEGREES_CONST, PRECISION)
+    obj.main.temp_max   = round(obj.main.temp_max - KELVIN_TO_DEGREES_CONST, PRECISION)
+
+    return obj
 
 def get_by_city_name(params):
     city_name = params
     req = urljoin(URL, f"?q={city_name}&appid={KEY}")
     res = requests.get(req)
-    return get_weather_info(res.json())
-
+    weather_obj = parse_json(res.json())
+    weather_obj_scaled = kelvins_to_degrees(weather_obj)
+    return weather_obj_scaled
+   
 def get_by_lat_lon(params):
     lat, lon = params
     req = urljoin(URL, f"?lat={lat}&lon={lon}&appid={KEY}")
     res = requests.get(req)
-    return get_weather_info(res.json())
-
+    weather_obj = parse_json(res.json())
+    weather_obj_scaled = kelvins_to_degrees(weather_obj)
+    return weather_obj_scaled
+    
 if __name__ == "__main__":
     pass
-
-#lat: 20.47, lon: 44.8
