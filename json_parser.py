@@ -6,7 +6,7 @@ class Coord(BaseModel):
     lon : float = None
     lat : float = None
 
-class Weather_Info(BaseModel):
+class WeatherInfo(BaseModel):
     id          : int = None
     main        : str = None
     description : str = None
@@ -25,14 +25,14 @@ class Wind(BaseModel):
     deg   : float = None
 
 
-class Complete_Weather_Info(BaseModel):
+class CompleteWeatherInfo(BaseModel):
     coord      : Coord
-    weather    : List[Weather_Info]
+    weather    : List[WeatherInfo]
     main       : Main
     wind       : Wind
 
 def parse_json(JSON):
-    weather_info = Complete_Weather_Info.parse_obj(JSON)
+    weather_info = CompleteWeatherInfo.parse_obj(JSON)
     return weather_info
 
 if __name__ == "__main__":
