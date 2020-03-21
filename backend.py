@@ -24,24 +24,28 @@ def kelvins_to_degrees(obj:CompleteWeatherInfo):
     return obj
 
 
+def make_request(req):
+    res                = requests.get(req)
+    weather_obj        = parse_json(res.json())
+    
+    return weather_obj
+
+
 def get_by_city_name(params):
     city_name = params
-    req = urljoin(URL, f"?q={city_name}&appid={KEY}")
-    res = requests.get(req)
-    weather_obj = parse_json(res.json())
-    weather_obj_scaled = kelvins_to_degrees(weather_obj)
+    req       = urljoin(URL, f"?q={city_name}&appid={KEY}")    
+    weather_obj = make_request(req)
     
-    return weather_obj_scaled
+    return kelvins_to_degrees(weather_obj)
    
 
 def get_by_lat_lon(params):
     lat, lon = params
-    req = urljoin(URL, f"?lat={lat}&lon={lon}&appid={KEY}")
-    res = requests.get(req)
-    weather_obj = parse_json(res.json())
-    weather_obj_scaled = kelvins_to_degrees(weather_obj)
+    req      = urljoin(URL, f"?lat={lat}&lon={lon}&appid={KEY}")
+    weather_obj = make_request(req)
     
-    return weather_obj_scaled
+    return kelvins_to_degrees(weather_obj)
+    
     
 if __name__ == "__main__":
     pass
