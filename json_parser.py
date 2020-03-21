@@ -12,7 +12,7 @@ class WeatherInfo(BaseModel):
     description : str = None
     icon        : str = None
 
-class Main(BaseModel):
+class MainInfo(BaseModel):
     temp       : float = None
     feels_like : float = None
     temp_min   : float = None
@@ -28,7 +28,7 @@ class Wind(BaseModel):
 class CompleteWeatherInfo(BaseModel):
     coord      : Coord
     weather    : List[WeatherInfo]
-    main       : Main
+    main       : MainInfo
     wind       : Wind
 
 def parse_json(JSON):
