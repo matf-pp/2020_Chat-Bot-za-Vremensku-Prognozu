@@ -27,12 +27,14 @@ class ChatBotGUI(ttk.Frame):
 
         self.btn_send_message = ttk.Button(self.frame_send_message, text = 'Send', command = self.send_message)
         self.btn_send_message.pack(side = tk.RIGHT, fill = tk.BOTH, padx = 10)
+        self.root.bind('<Return>', self.send_message)
         
 
     def run(self):
         self.root.mainloop()
 
-    def send_message(self):
+    def send_message(self, event=None):
+        print('send_message')
         msg = self.entry_send_message.get()
         if len(msg) == 0:
             return
