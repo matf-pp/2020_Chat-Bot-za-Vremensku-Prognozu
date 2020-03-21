@@ -6,8 +6,11 @@ def init_gui():
     root = Tk()
     root.title('Weather ChatBot')
 
-    frame_chat_history = ttk.Frame(root)
-    frame_send_message = ttk.Frame(root)
+    frame_root = ttk.Frame(root)
+    frame_root.grid(column = 0, row = 0)
+
+    frame_chat_history = ttk.Frame(root, padding = (10, 10, 10, 10))
+    frame_send_message = ttk.Frame(root, padding = (10, 0, 10, 10))
 
     frame_chat_history.grid(column = 0, row = 0)    
     frame_send_message.grid(column = 0, row = 1)
