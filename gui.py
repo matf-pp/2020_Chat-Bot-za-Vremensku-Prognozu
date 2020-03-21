@@ -16,6 +16,7 @@ class ChatBotGUI(ttk.Frame):
 
         self.text_chat_history = tk.Text(self.frame_chat_history)
         self.text_chat_history.pack(fill = tk.BOTH, expand = tk.TRUE)
+        self.text_chat_history.configure(state = tk.DISABLED)
         
         #? Send Message
         self.frame_send_message = ttk.Frame(self.root, padding = (10, 0, 10, 10))
@@ -24,13 +25,22 @@ class ChatBotGUI(ttk.Frame):
         self.entry_send_message = ttk.Entry(self.frame_send_message)
         self.entry_send_message.pack(side = tk.LEFT, fill = tk.BOTH, expand = tk.TRUE)
 
-        self.btn_send_message = ttk.Button(self.frame_send_message, text = 'Send')
+        self.btn_send_message = ttk.Button(self.frame_send_message, text = 'Send', command = self.send_message)
         self.btn_send_message.pack(side = tk.RIGHT, fill = tk.BOTH, padx = 10)
         
 
     def run(self):
         self.root.mainloop()
 
+    def send_message(self):
+        msg = self.entry_send_message.get()
+        if len(msg) == 0:
+            return
+        
+        self.text_chat_history.configure(state = tk.NORMAL)
+        self.text_chat_history.delete(1.0, tk.END)    
+        self.text_chat_history.insert(tk.END, msg)
+        self.text_chat_history.configure(state = tk.DISABLED)
 
 def main():
     root = tk.Tk()
