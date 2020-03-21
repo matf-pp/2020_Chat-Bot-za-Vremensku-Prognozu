@@ -1,33 +1,41 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk 
 
+class ChatBotGUI(ttk.Frame):
 
-def init_gui():
-    root = Tk()
-    root.title('Weather ChatBot')
+    def __init__(self, root):
+        self.root = root
+        self.root.title('Weather ChatBot')
 
-    frame_root = ttk.Frame(root)
-    frame_root.pack(fill = BOTH, expand = TRUE)
+        self.frame_root = ttk.Frame(self.root)
+        self.frame_root.pack(fill = tk.BOTH, expand = tk.TRUE)
 
-    #? TextBox
-    frame_chat_history = ttk.Frame(root, padding = (10, 10, 10, 10))
-    frame_chat_history.pack(side = TOP, fill = BOTH, expand = TRUE)    
+        #? TextBox
+        self.frame_chat_history = ttk.Frame(self.root, padding = (10, 10, 10, 10))
+        self.frame_chat_history.pack(side = tk.TOP, fill = tk.BOTH, expand = tk.TRUE)    
 
-    text_chat_history = Text(frame_chat_history)
-    text_chat_history.pack(fill = BOTH, expand = TRUE)
-    
-    #? Send Message
-    frame_send_message = ttk.Frame(root, padding = (10, 0, 10, 10))
-    frame_send_message.pack(side = BOTTOM, fill = BOTH, expand = TRUE)
+        self.text_chat_history = tk.Text(self.frame_chat_history)
+        self.text_chat_history.pack(fill = tk.BOTH, expand = tk.TRUE)
+        
+        #? Send Message
+        self.frame_send_message = ttk.Frame(self.root, padding = (10, 0, 10, 10))
+        self.frame_send_message.pack(side = tk.BOTTOM, fill = tk.BOTH, expand = tk.TRUE)
 
-    entry_send_message = ttk.Entry(frame_send_message)
-    entry_send_message.pack(side = LEFT, fill = BOTH, expand = TRUE)
+        self.entry_send_message = ttk.Entry(self.frame_send_message)
+        self.entry_send_message.pack(side = tk.LEFT, fill = tk.BOTH, expand = tk.TRUE)
 
-    btn_send_message = ttk.Button(frame_send_message, text = 'Send')
-    btn_send_message.pack(side = RIGHT, fill = BOTH, padx = 10)
-    
+        self.btn_send_message = ttk.Button(self.frame_send_message, text = 'Send')
+        self.btn_send_message.pack(side = tk.RIGHT, fill = tk.BOTH, padx = 10)
+        
 
-    root.mainloop()
+    def run(self):
+        self.root.mainloop()
+
+
+def main():
+    root = tk.Tk()
+    app = ChatBotGUI(root)
+    app.run()
 
 if __name__ == "__main__":
-    init_gui()
+    main()
