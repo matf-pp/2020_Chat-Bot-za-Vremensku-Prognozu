@@ -55,6 +55,7 @@ class ChatBotGUI(ttk.Frame):
         messaging_response = messaging.receive_message_and_make_response(msg)
         self.chat_history.append(messaging_response)
         self.populate_chat()
+        self.entry_send_message.delete(0, tk.END)
 
     def populate_chat(self):
         self.text_chat_history.configure(state = tk.NORMAL)
