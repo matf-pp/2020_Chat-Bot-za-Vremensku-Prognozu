@@ -4,6 +4,8 @@ from backend import (
     get_by_lat_lon,
     get_by_city_name
 )
+from backend import CompleteWeatherInfo
+from typing import Union
 
 REGEX_FLAGS = re.I | re.S
 
@@ -37,7 +39,7 @@ def contains_lat_lon(user_input):
 
     return None
 
-def determine_response(user_input):
+def determine_response(user_input) -> Union[CompleteWeatherInfo, None]:
     params = contains_lat_lon(user_input)
     if params:
         print(params)

@@ -31,7 +31,7 @@ def make_request(req):
     return weather_obj
 
 
-def get_by_city_name(params):
+def get_by_city_name(params) -> CompleteWeatherInfo:
     city_name = params
     req       = urljoin(URL, f"?q={city_name}&appid={KEY}")    
     weather_obj = make_request(req)
@@ -39,7 +39,7 @@ def get_by_city_name(params):
     return kelvins_to_degrees(weather_obj)
    
 
-def get_by_lat_lon(params):
+def get_by_lat_lon(params) -> CompleteWeatherInfo:
     lat, lon = params
     req      = urljoin(URL, f"?lat={lat}&lon={lon}&appid={KEY}")
     weather_obj = make_request(req)
