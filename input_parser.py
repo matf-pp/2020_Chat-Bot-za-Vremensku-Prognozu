@@ -48,6 +48,8 @@ def determine_response(user_input):
         print(params)
         return get_by_city_name(params)
 
+    return None
+
 
 if __name__ == "__main__":
     pass

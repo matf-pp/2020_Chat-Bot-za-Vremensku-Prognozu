@@ -4,6 +4,8 @@ from input_parser import (
     determine_response,
 )
 
+INPUT_NOT_RECOGNIZED_MSG = 'Your input is not recognized, please try again.'
+
 def main():
     print('Ask me a question about the weather\n')
 
@@ -15,7 +17,12 @@ def main():
             break
         
         response = determine_response(user_input)
-        print(response)
+        
+        if not response:
+            print(INPUT_NOT_RECOGNIZED_MSG)
+        
+        else:
+            print(response)
         
         
 
