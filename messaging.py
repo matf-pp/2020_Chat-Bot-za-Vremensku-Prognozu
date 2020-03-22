@@ -1,4 +1,3 @@
-
 from input_parser import (
     is_exit_command,
     determine_response,
