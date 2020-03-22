@@ -10,12 +10,12 @@ KEY = os.getenv("KEY")
 URL = os.getenv("URL")
 
 
-def scale_temperature(temp):   
+def scale_temperature(temp: int) -> int:   
     
     return round(temp - 273.15, 2)
 
 
-def kelvins_to_degrees(obj:CompleteWeatherInfo):
+def kelvins_to_degrees(obj:CompleteWeatherInfo) -> CompleteWeatherInfo:
     obj.main.temp       = scale_temperature(obj.main.temp)
     obj.main.feels_like = scale_temperature(obj.main.feels_like)
     obj.main.temp_min   = scale_temperature(obj.main.temp_min)
@@ -31,17 +31,17 @@ def make_request(req):
     return weather_obj
 
 
-def get_by_city_name(params) -> CompleteWeatherInfo:
-    city_name = params
-    req       = urljoin(URL, f"?q={city_name}&appid={KEY}")    
+def get_by_city_name(params: str) -> CompleteWeatherInfo:
+    city_name   = params
+    req         = urljoin(URL, f"?q={city_name}&appid={KEY}")    
     weather_obj = make_request(req)
     
     return kelvins_to_degrees(weather_obj)
    
 
-def get_by_lat_lon(params) -> CompleteWeatherInfo:
-    lat, lon = params
-    req      = urljoin(URL, f"?lat={lat}&lon={lon}&appid={KEY}")
+def get_by_lat_lon(params: tuple) -> CompleteWeatherInfo:
+    lat, lon    = params
+    req         = urljoin(URL, f"?lat={lat}&lon={lon}&appid={KEY}")
     weather_obj = make_request(req)
     
     return kelvins_to_degrees(weather_obj)
