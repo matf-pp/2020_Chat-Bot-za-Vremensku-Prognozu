@@ -40,7 +40,7 @@ class ChatBotGUI(ttk.Frame):
     def get_img_path(self):
         current_dir = os.path.curdir
         path = os.path.join(current_dir, 'img', 'icon.ico')
-        return path
+        return os.path.abspath(path)
 
 
     def run(self):
