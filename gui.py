@@ -12,7 +12,7 @@ class ChatBotGUI(ttk.Frame):
 
         self.root = root
         self.root.title('Weather ChatBot')
-        self.root.iconbitmap(os.path.abspath('./img/icon.ico'))
+        self.root.iconbitmap(self.get_img_path())
 
         self.frame_root = ttk.Frame(self.root)
         self.frame_root.pack(fill = tk.BOTH, expand = tk.TRUE)
@@ -36,6 +36,12 @@ class ChatBotGUI(ttk.Frame):
         self.btn_send_message.pack(side = tk.RIGHT, fill = tk.BOTH, padx = 10)
         self.root.bind('<Return>', self.send_message)
         
+
+    def get_img_path(self):
+        current_dir = os.path.curdir
+        path = os.path.join(current_dir, 'img', 'icon.ico')
+        return path
+
 
     def run(self):
         self.root.mainloop()
