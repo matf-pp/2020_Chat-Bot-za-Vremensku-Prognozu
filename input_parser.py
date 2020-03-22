@@ -5,14 +5,14 @@ from backend import (
     get_by_city_name
 )
 from backend import CompleteWeatherInfo
-from typing import Union
+from typing import Union, Tuple
 
 REGEX_FLAGS = re.I | re.S
 
-def is_exit_command(user_input):
+def is_exit_command(user_input: str) -> bool:
     return user_input.lower().strip() == 'exit'
 
-def contains_city_name(user_input):
+def contains_city_name(user_input: str) -> Union[str, None]:
     """
     Receives user_input 
 
@@ -31,7 +31,7 @@ def contains_city_name(user_input):
     
     return None
 
-def contains_lat_lon(user_input):
+def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
     regex = re.compile(r'.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
@@ -39,7 +39,7 @@ def contains_lat_lon(user_input):
 
     return None
 
-def determine_response(user_input) -> Union[CompleteWeatherInfo, None]:
+def determine_response(user_input: str) -> Union[CompleteWeatherInfo, None]:
     params = contains_lat_lon(user_input)
     if params:
         print(params)

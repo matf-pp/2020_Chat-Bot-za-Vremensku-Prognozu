@@ -41,7 +41,7 @@ def convert_user_msg_to_chat_format(user_msg: str) -> str:
     chat_response = f'{assign_message_info(USER_NAME)}{user_msg}'
     return chat_response
 
-def receive_message_and_make_response(user_msg: str):
+def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
     
     response = determine_response(user_msg)
 
