@@ -24,7 +24,7 @@ def kelvins_to_degrees(obj:CompleteWeatherInfo) -> CompleteWeatherInfo:
     return obj
 
 
-def make_request(req):
+def make_request(req: str) -> CompleteWeatherInfo:
     res                = requests.get(req)
     weather_obj        = parse_json(res.json())
     
