@@ -29,8 +29,7 @@ def convert_chatbot_response_to_chat_format(response: CompleteWeatherInfo, is_us
     \tCurrent temperature: {temp}
     \tCurrent humidity: {humidity}
     \tCurrent wind speed: {wind_speed}
-    \n
-    """)
+    \n""")
     return chat_response
 
 def convert_wrong_user_input_to_chat_format() -> str:
