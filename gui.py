@@ -1,9 +1,14 @@
 import tkinter as tk
 from tkinter import ttk 
+import messaging
+
 
 class ChatBotGUI(ttk.Frame):
 
     def __init__(self, root):
+
+        self.chat_history = []
+
         self.root = root
         self.root.title('Weather ChatBot')
 
@@ -39,9 +44,18 @@ class ChatBotGUI(ttk.Frame):
         if len(msg) == 0:
             return
         
+        messaging_response = messaging.receive_message_and_make_response(msg)
+        self.chat_history.append(messaging_response)
+        self.populate_chat()
+
+    def populate_chat(self):
         self.text_chat_history.configure(state = tk.NORMAL)
         self.text_chat_history.delete(1.0, tk.END)    
-        self.text_chat_history.insert(tk.END, msg)
+        
+        for user_msg, chatbot_res in self.chat_history:
+            self.text_chat_history.insert(tk.END, user_msg)
+            self.text_chat_history.insert(tk.END, chatbot_res)
+            
         self.text_chat_history.configure(state = tk.DISABLED)
 
 def main():

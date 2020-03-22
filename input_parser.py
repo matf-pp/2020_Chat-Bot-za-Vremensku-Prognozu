@@ -52,6 +52,5 @@ def determine_response(user_input: str) -> Union[CompleteWeatherInfo, None]:
 
     return None
 
-
 if __name__ == "__main__":
     pass

@@ -29,16 +29,17 @@ def convert_chatbot_response_to_chat_format(response: CompleteWeatherInfo, is_us
     \tCurrent temperature: {temp}
     \tCurrent humidity: {humidity}
     \tCurrent wind speed: {wind_speed}
+    \n
     """)
     return chat_response
 
 def convert_wrong_user_input_to_chat_format() -> str:
     input_not_recognized_msg = 'Your input is not recognized, please try again.'
-    chat_response = f'{assign_message_info(CHATBOT_NAME)}{input_not_recognized_msg}'
+    chat_response = f'{assign_message_info(CHATBOT_NAME)}{input_not_recognized_msg}\n\n'
     return chat_response
 
 def convert_user_msg_to_chat_format(user_msg: str) -> str:
-    chat_response = f'{assign_message_info(USER_NAME)}{user_msg}'
+    chat_response = f'{assign_message_info(USER_NAME)}{user_msg}\n\n'
     return chat_response
 
 def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
