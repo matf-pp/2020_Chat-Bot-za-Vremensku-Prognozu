@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk 
 import messaging
+import os
 
 
 class ChatBotGUI(ttk.Frame):
@@ -11,7 +12,7 @@ class ChatBotGUI(ttk.Frame):
 
         self.root = root
         self.root.title('Weather ChatBot')
-        self.root.iconbitmap('./img/icon.ico')
+        self.root.iconbitmap(os.path.abspath('./img/icon.ico'))
 
         self.frame_root = ttk.Frame(self.root)
         self.frame_root.pack(fill = tk.BOTH, expand = tk.TRUE)
