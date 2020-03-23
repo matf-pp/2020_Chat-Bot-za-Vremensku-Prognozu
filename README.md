@@ -3,6 +3,5 @@ Ideja je da se pomocu API servisa implementira chat bot koji ce moci da daje inf
 
 # Biblioteke: 
 - [pydantic](https://pydantic-docs.helpmanual.io/)
-- [urllib](https://docs.python.org/3/library/urllib.html)
 - [dotenv](https://pypi.org/project/python-dotenv/)
 

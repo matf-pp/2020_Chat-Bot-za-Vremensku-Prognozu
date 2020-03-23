@@ -4,7 +4,7 @@ from input_parser import (
 )
 
 from datetime import datetime
-from json_parser import CompleteWeatherInfo
+from models.CompleteWeatherInfo import CompleteWeatherInfo
 from typing import Tuple
 
 CHATBOT_NAME = 'ChatBot'
@@ -44,6 +44,8 @@ def convert_user_msg_to_chat_format(user_msg: str) -> str:
 def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
     
     response = determine_response(user_msg)
+
+    #! neki_dict[(response_type)] = neka_funkcija
 
     if not response:
         chatbot_response = convert_wrong_user_input_to_chat_format()   

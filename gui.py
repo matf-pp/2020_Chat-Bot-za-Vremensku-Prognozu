@@ -12,7 +12,8 @@ class ChatBotGUI(ttk.Frame):
 
         self.root = root
         self.root.title('Weather ChatBot')
-        self.root.iconbitmap(self.get_img_path())
+
+        #! FIXME on Linux self.root.iconbitmap(self.get_img_path())
 
         self.frame_root = ttk.Frame(self.root)
         self.frame_root.pack(fill = tk.BOTH, expand = tk.TRUE)
