@@ -65,5 +65,3 @@ def get_by_multiple_lon_lat(params: tuple):
 
 if __name__ == "__main__":
     pass
-
-#git commit -m "Adding requests for getting information about cities stored in squared area specified in request"
