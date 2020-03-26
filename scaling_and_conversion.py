@@ -1,5 +1,5 @@
 import math
-from json_parser import (CompleteWeatherInfo, parse_json)
+from json_parser import (CompleteWeatherInfo, parse_1_json)
 
 
 def scale_temperature(temp: int) -> int:   
