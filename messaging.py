@@ -59,26 +59,6 @@ def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
     return ChatHandler().handle_response(response, user_msg)
 
 
-# def main():
-#     print('Ask me a question about the weather\n')
-
-#     while True:
-#         user_input = input()
-
-#         if is_exit_command(user_input):
-#             print('Program exiting...')
-#             break
-        
-#         response = determine_response(user_input)
-        
-#         if not response:
-#             print(convert_wrong_user_input_to_chat_format())
-        
-#         else:
-#             print(convert_chatbot_response_to_chat_format(response))
-        
-        
-
 if __name__ == "__main__":
     user_response, chatbot_response = receive_message_and_make_response('London weather')
     print(user_response)

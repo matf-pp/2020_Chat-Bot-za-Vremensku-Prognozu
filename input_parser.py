@@ -38,6 +38,11 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
     if match:
         return (match.group('lat'), match.group('lon'))
 
+    regex = re.compile(r'.*(lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).* (lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
+    match = regex.match(user_input)    
+    if match:
+        return (match.group('lat'), match.group('lon'))
+
     return None
 
 def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo], None]:
