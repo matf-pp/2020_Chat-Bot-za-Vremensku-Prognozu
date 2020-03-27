@@ -39,12 +39,9 @@ def get_readable_weather(obj: CompleteWeatherInfo1) -> MessageInfo:
 def get_by_city_name(params: str) -> MessageInfo:
     CODE        = 0
     city_name   = params
-    print("PARAMS: ", params)
     req         = urljoin(URL, f"weather?q={city_name}&appid={KEY}")    
-    print("REQ: ", req)
-    
-    weather_obj = make_request(req, CODE)
 
+    weather_obj = make_request(req, CODE)
     return get_readable_weather(weather_obj)
 
 
