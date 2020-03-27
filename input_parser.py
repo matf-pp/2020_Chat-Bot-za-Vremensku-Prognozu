@@ -1,10 +1,10 @@
 import re
 
 from backend import (
-    get_by_lat_lon,
+    get_by_geographic_coordinates,
     get_by_city_name
 )
-from backend import CompleteWeatherInfo
+from backend import CompleteWeatherInfo1
 from typing import Union, Tuple
 
 REGEX_FLAGS = re.I | re.S
@@ -39,11 +39,11 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
 
     return None
 
-def determine_response(user_input: str) -> Union[CompleteWeatherInfo, None]:
+def determine_response(user_input: str) -> Union[CompleteWeatherInfo1, None]:
     params = contains_lat_lon(user_input)
     if params:
         print(params)
-        return get_by_lat_lon(params)
+        return get_by_geographic_coordinates(params)
 
     params = contains_city_name(user_input)
     if params:
