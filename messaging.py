@@ -14,7 +14,7 @@ USER_NAME = 'User'
 def assign_message_info(user: str) -> str:
     return f'[{user} @ {utils.get_current_time()}]: '
 
-def convert_chatbot_response_to_chat_format(response: MessageInfo, is_user = False) -> str:
+def convert_chatbot_response_to_chat_format(response: MessageInfo) -> str:
     wind_speed = response.wind_speed
     temp = response.temp
     humidity = response.humidity
