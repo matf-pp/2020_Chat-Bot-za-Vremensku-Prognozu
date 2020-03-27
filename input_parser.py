@@ -5,7 +5,8 @@ from backend import (
     get_by_city_name
 )
 from backend import CompleteWeatherInfo1
-from typing import Union, Tuple
+from typing import Union, Tuple, List
+from models.MessageInfo import MessageInfo
 
 REGEX_FLAGS = re.I | re.S
 
@@ -39,7 +40,7 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
 
     return None
 
-def determine_response(user_input: str) -> Union[CompleteWeatherInfo1, None]:
+def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo], None]:
     params = contains_lat_lon(user_input)
     if params:
         print(params)

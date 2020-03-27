@@ -1,28 +1,30 @@
 import math
 from json_parser import (CompleteWeatherInfo1, parse_1_json)
-
+from models.MessageInfo import MessageInfo
 
 def scale_temperature(temp: int) -> int:   
     
     return round(temp - 273.15, 2)
 
 
-def convert_to_string_and_add_units(val: int, unit:str)->str:
+def convert_to_string_and_add_units(val: int, unit: str)->str:
     str_val = str(val) + unit
 
     return str_val
 
 
-def add_units(obj: CompleteWeatherInfo1) -> object:
-    obj.main.temp       = convert_to_string_and_add_units(obj.main.temp, " °C")
-    obj.main.feels_like = convert_to_string_and_add_units(obj.main.feels_like, " °C")
-    obj.main.temp_min   = convert_to_string_and_add_units(obj.main.temp_min,  " °C")
-    obj.main.temp_max   = convert_to_string_and_add_units(obj.main.temp_max, " °C")
-    obj.main.pressure = convert_to_string_and_add_units(obj.main.pressure, "mbar")
-    obj.main.humidity   = convert_to_string_and_add_units(obj.main.humidity, " %")
-    obj.wind.speed      = convert_to_string_and_add_units(obj.wind.speed, " m/s")
+def add_units(obj: CompleteWeatherInfo1) -> MessageInfo:
+    message_info = MessageInfo()
 
-    return obj
+    message_info.temp       = convert_to_string_and_add_units(obj.main.temp, " °C")
+    message_info.feels_like = convert_to_string_and_add_units(obj.main.feels_like, " °C")
+    message_info.temp_min   = convert_to_string_and_add_units(obj.main.temp_min,  " °C")
+    message_info.temp_max   = convert_to_string_and_add_units(obj.main.temp_max, " °C")
+    message_info.pressure = convert_to_string_and_add_units(obj.main.pressure, "mbar")
+    message_info.humidity   = convert_to_string_and_add_units(obj.main.humidity, " %")
+    message_info.wind_speed      = convert_to_string_and_add_units(obj.wind.speed, " m/s")
+
+    return message_info
 
 
 def kelvins_to_degrees(obj:CompleteWeatherInfo1) -> CompleteWeatherInfo1:
