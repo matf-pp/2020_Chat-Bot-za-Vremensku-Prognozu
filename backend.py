@@ -90,7 +90,6 @@ def get_by_ceveral_city_ids(params: tuple) -> CompleteWeatherInfoR:
     CODE = 3
     city_ids = ','.join([str(x) for x in params])
     req = urljoin(URL, f"group?id={city_ids}&units=metric&appid={KEY}")
-    print(req)
     weather_obj = make_request(req, CODE)
 
     return weather_obj
