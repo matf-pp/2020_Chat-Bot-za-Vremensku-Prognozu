@@ -1,5 +1,5 @@
 import math
-from json_parser import (CompleteWeatherInfo, parse_1_json)
+from json_parser import (CompleteWeatherInfo1, parse_1_json)
 
 
 def scale_temperature(temp: int) -> int:   
@@ -13,7 +13,7 @@ def convert_to_string_and_add_units(val: int, unit:str)->str:
     return str_val
 
 
-def add_units(obj: CompleteWeatherInfo) -> object:
+def add_units(obj: CompleteWeatherInfo1) -> object:
     obj.main.temp       = convert_to_string_and_add_units(obj.main.temp, " °C")
     obj.main.feels_like = convert_to_string_and_add_units(obj.main.feels_like, " °C")
     obj.main.temp_min   = convert_to_string_and_add_units(obj.main.temp_min,  " °C")
@@ -25,7 +25,7 @@ def add_units(obj: CompleteWeatherInfo) -> object:
     return obj
 
 
-def kelvins_to_degrees(obj:CompleteWeatherInfo) -> CompleteWeatherInfo:
+def kelvins_to_degrees(obj:CompleteWeatherInfo1) -> CompleteWeatherInfo1:
     obj.main.temp       = scale_temperature(obj.main.temp)
     obj.main.feels_like = scale_temperature(obj.main.feels_like)
     obj.main.temp_min   = scale_temperature(obj.main.temp_min)
