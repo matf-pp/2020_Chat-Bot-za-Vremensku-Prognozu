@@ -4,7 +4,7 @@ from input_parser import (
 )
 
 from datetime import datetime
-from models.CompleteWeatherInfo import CompleteWeatherInfo
+from models.OneCityWeatherParser import CompleteWeatherInfo1
 from typing import Tuple
 
 CHATBOT_NAME = 'ChatBot'
@@ -18,7 +18,7 @@ def get_current_time() -> str:
 def assign_message_info(user: str) -> str:
     return f'[{user} @ {get_current_time()}]: '
 
-def convert_chatbot_response_to_chat_format(response: CompleteWeatherInfo, is_user = False) -> str:
+def convert_chatbot_response_to_chat_format(response: CompleteWeatherInfo1, is_user = False) -> str:
     wind_speed = response.wind.speed
     temp = response.main.temp
     humidity = response.main.humidity
