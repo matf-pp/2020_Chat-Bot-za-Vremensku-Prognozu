@@ -50,7 +50,7 @@ class ChatBotGUI(ttk.Frame):
             path = os.path.join(current_dir, 'img', 'icon.xbm')
             path = '@' + path
 
-        return os.path.abspath(path)
+        return path
 
 
     def run(self):
