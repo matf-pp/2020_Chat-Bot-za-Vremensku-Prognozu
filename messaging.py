@@ -17,6 +17,10 @@ class ChatHandler:
     def assign_message_info(self, user: str) -> str:
         return f'[{user} @ {utils.get_current_time()}]: '
 
+    def display_welcome_message(self) -> str:
+        chat_response = f'{self.assign_message_info(self.chatbot)} Ask me a question about the weather, \nor type "help" if you are not sure what to do!\n'
+        return chat_response
+
     def get_chatbot_response_for_single_city(self, response: MessageInfo) -> str:
         chat_response = f'{self.assign_message_info(self.chatbot)}Current weather stats are:\n{response.convert_info_to_chat_format()}\n'
         return chat_response
@@ -59,6 +63,10 @@ class ChatHandler:
         user_response = self.determine_user_response(user_msg)
 
         return user_response, chatbot_response, 
+
+    
+def display_welcome_message():
+    return ChatHandler().display_welcome_message()
 
 def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
     response = determine_response(user_msg)

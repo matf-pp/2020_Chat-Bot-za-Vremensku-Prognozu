@@ -2,17 +2,15 @@ import tkinter as tk
 from tkinter import ttk 
 import messaging
 import os
+from typing import Tuple, List
 
 
 class ChatBotGUI(ttk.Frame):
 
     def __init__(self, root):
-
-        self.chat_history = []
-
+        
         self.root = root
         self.root.title('Weather ChatBot')
-
         #! FIXME on Linux self.root.iconbitmap(self.get_img_path())
 
         self.frame_root = ttk.Frame(self.root)
@@ -37,6 +35,9 @@ class ChatBotGUI(ttk.Frame):
         self.btn_send_message.pack(side = tk.RIGHT, fill = tk.BOTH, padx = 10)
         self.root.bind('<Return>', self.send_message)
         
+        self.chat_history: List[Tuple[str, str]] = []
+        self.display_welcome_message()
+
 
     def get_img_path(self):
         current_dir = os.path.curdir
@@ -46,6 +47,11 @@ class ChatBotGUI(ttk.Frame):
 
     def run(self):
         self.root.mainloop()
+
+    def display_welcome_message(self):
+        #? user_msg is None because we don't have any user response on program start
+        self.chat_history.append((None, messaging.display_welcome_message()))
+        self.populate_chat()
 
     def send_message(self, event=None):
         print('send_message')
@@ -63,8 +69,10 @@ class ChatBotGUI(ttk.Frame):
         self.text_chat_history.delete(1.0, tk.END)    
         
         for user_msg, chatbot_res in self.chat_history:
-            self.text_chat_history.insert(tk.END, user_msg)
-            self.text_chat_history.insert(tk.END, chatbot_res)
+            if user_msg:
+                self.text_chat_history.insert(tk.END, user_msg)
+            if chatbot_res:
+                self.text_chat_history.insert(tk.END, chatbot_res)
             
         self.text_chat_history.configure(state = tk.DISABLED)
 
