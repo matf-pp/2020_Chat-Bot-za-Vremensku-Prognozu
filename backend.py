@@ -38,7 +38,6 @@ def get_readable_weather(complete_weather_object: CombinedInfo) -> Union[Message
 def get_by_city_name(params: str) -> MessageInfo:
     city_name   = params
     req         = urljoin(URL, f"weather?q={city_name}&appid={KEY}")    
-    print(req)
     obj         = make_request(req)
     weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
 
@@ -46,7 +45,6 @@ def get_by_city_name(params: str) -> MessageInfo:
 
 
 def get_by_geographic_coordinates(params: Tuple[str, str]) -> MessageInfo:
-    print('get_by_geographic_coordinates')
     lat, lon    = params
     req         = urljoin(URL, f"weather?lat={lat}&lon={lon}&appid={KEY}")
     obj         = make_request(req)
@@ -67,7 +65,6 @@ def get_by_city_id(params: int) -> MessageInfo:
 def get_by_zip_code(params: tuple) -> MessageInfo:
     zip_code, country_code = params
     req                    = urljoin(URL, f"weather?zip={zip_code},{country_code}&appid={KEY}")
-    weather_obj            = make_request(req)
     obj         = make_request(req)
     weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
     
@@ -75,23 +72,18 @@ def get_by_zip_code(params: tuple) -> MessageInfo:
 
 
 def get_by_cities_in_circle(params: Tuple[str, str]) -> List[MessageInfo]:
-    print('get_by_cities_in_circle')
     default_count = 20
     lat, lon = params
     req           = urljoin(URL, f"find?lat={lat}&lon={lon}&cnt={default_count}&appid={KEY}")
-    print(req)
-    weather_obj   = make_request(req)
     obj         = make_request(req)
-
     weather_obj = CityInCircleWeather.CompleteWeatherInfo.parse_obj(obj.json())
+    
     return get_readable_weather(weather_obj)
 
 
 def get_by_ceveral_city_ids(params: tuple) -> MessageInfo:
     city_ids = ','.join([str(x) for x in params])
     req = urljoin(URL, f"group?id={city_ids}&units=metric&appid={KEY}")
-    print(req)
-    weather_obj   = make_request(req)
     obj         = make_request(req)
     weather_obj = ManyCitiesWeather.CompleteWeatherInfo.parse_obj(obj.json())
 

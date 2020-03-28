@@ -84,22 +84,18 @@ def contains_help(user_input: str) -> str:
 def determine_response(user_input: str) -> ChatbotResponse:
     params = contains_circle(user_input)
     if params:
-        print(params)
         return get_by_cities_in_circle(params)
     
     params = contains_lat_lon(user_input)
     if params:
-        print(params)
         return get_by_geographic_coordinates(params)
 
     params = contains_city_name(user_input)
     if params:
-        print(params)
         return get_by_city_name(params)
 
     params = contains_help(user_input)
     if params:
-        print(params)
         return HELP_STR
 
     return None

@@ -76,7 +76,7 @@ def readable_weather(obj: CombinedInfo) -> MessageInfo:
             print("Field name doesn't exist")
 
     except AttributeError:
-        print("Attribute missing!")
+        print("Field main doesn't exist")
 
     return msg_info
 
