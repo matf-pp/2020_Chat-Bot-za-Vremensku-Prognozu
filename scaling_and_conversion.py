@@ -27,23 +27,54 @@ def readable_weather(obj: CONTAIN_ALL) -> MessageInfo:
     try:
         MainInfo = obj.main
 
-        if is_in_Kelvin(MainInfo.temp):
-            MainInfo.temp = scale_temperature(MainInfo.temp)
-        if is_in_Kelvin(MainInfo.feels_like):
-            MainInfo.feels_like = scale_temperature(MainInfo.feels_like)
-        if is_in_Kelvin(MainInfo.temp_min):
-            MainInfo.temp_min = scale_temperature(MainInfo.temp_min)
-        if is_in_Kelvin(MainInfo.temp_max):
-            MainInfo.temp_max = scale_temperature(MainInfo.temp_max)
+        try:
+            if is_in_Kelvin(MainInfo.temp):
+                MainInfo.temp       = scale_temperature(MainInfo.temp)
+                msg_info.temp       = convert_to_string_and_add_units(MainInfo.temp, " °C")
+        except AttributeError:
+            print("Field temp doesn't exist")
+
+        try:
+            if is_in_Kelvin(MainInfo.feels_like):
+                MainInfo.feels_like = scale_temperature(MainInfo.feels_like)
+                msg_info.feels_like = convert_to_string_and_add_units(MainInfo.feels_like, " °C")
+        except AttributeError:
+            print("Field feels_like doesn't exist")
+
+        try:    
+            if is_in_Kelvin(MainInfo.temp_min):
+                MainInfo.temp_min = scale_temperature(MainInfo.temp_min)
+                msg_info.temp_min = convert_to_string_and_add_units(MainInfo.temp_min, " °C")
+        except AttributeError:
+            print("Field temp_min doesn't exist")
+
+        try:
+            if is_in_Kelvin(MainInfo.temp_max):
+                MainInfo.temp_max = scale_temperature(MainInfo.temp_max)
+                msg_info.temp_max = convert_to_string_and_add_units(MainInfo.temp_max, " °C")
+        except AttributeError:
+            print("Field temp_max doesn't exist")
+
         
-        msg_info.temp       = convert_to_string_and_add_units(MainInfo.temp, " °C")
-        msg_info.feels_like = convert_to_string_and_add_units(MainInfo.feels_like, " °C")
-        msg_info.temp_min   = convert_to_string_and_add_units(MainInfo.temp_min, " °C")
-        msg_info.temp_max   = convert_to_string_and_add_units(MainInfo.temp_max, " °C")
-        msg_info.humidity   = convert_to_string_and_add_units(MainInfo.humidity, " %")
-        msg_info.pressure   = convert_to_string_and_add_units(MainInfo.pressure, " mbar")
-        msg_info.wind_speed = convert_to_string_and_add_units(obj.wind.speed, " m/s")
-        msg_info.name       = obj.name
+        try:
+            msg_info.humidity   = convert_to_string_and_add_units(MainInfo.humidity, " %")
+        except AttributeError:
+            print("Field humidity doesn't exist")
+
+        try:
+            msg_info.pressure   = convert_to_string_and_add_units(MainInfo.pressure, " mbar")
+        except AttributeError:
+            print("Field pressure doesn't exist")
+
+        try:
+            msg_info.wind_speed = convert_to_string_and_add_units(obj.wind.speed, " m/s")
+        except AttributeError:
+            print("Field wind_speed doesn't exist")
+
+        try:
+            msg_info.name       = obj.name
+        except AttributeError:
+            print("Field name doesn't exist")
 
     except AttributeError:
         print("Attribute missing!")
