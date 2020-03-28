@@ -11,7 +11,8 @@ class ChatBotGUI(ttk.Frame):
         
         self.root = root
         self.root.title('Weather ChatBot')
-        self.load_icon()
+        self.root.resizable(0, 0)
+        self.root.iconbitmap(self.get_img_path())
 
         self.frame_root = ttk.Frame(self.root)
         self.frame_root.pack(fill = tk.BOTH, expand = tk.TRUE)
@@ -38,11 +39,8 @@ class ChatBotGUI(ttk.Frame):
         self.chat_history: List[Tuple[str, str]] = []
         self.display_welcome_message()
 
-    def load_icon(self):
-        self.root.iconbitmap(self.get_img_path())
-
-
     def get_img_path(self):
+        #? linux doesn't support standard icon files
         if os.name != 'nt':
             return 
         
