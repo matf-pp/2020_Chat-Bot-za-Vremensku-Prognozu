@@ -47,9 +47,22 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
     return None
 
 def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
-    return '30', '30'
+    regex = re.compile(r'(in )?circle\s+around.*(lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).* (lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
+    match = regex.match(user_input)    
+    if match:
+        return (match.group('lat'), match.group('lon'))
+
+    regex = re.compile(r'(in )?circle\s+around.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
+    match = regex.match(user_input)    
+    if match:
+        return (match.group('lat'), match.group('lon'))
 
 def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo], None]:
+    params = contains_circle(user_input)
+    if params:
+        print(params)
+        return get_by_cities_in_circle(params)
+    
     params = contains_lat_lon(user_input)
     if params:
         print(params)
@@ -60,10 +73,6 @@ def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo],
         print(params)
         return get_by_city_name(params)
 
-    params = contains_circle(user_input)
-    if params:
-        print(params)
-        return get_by_cities_in_circle(params)
 
     return None
 

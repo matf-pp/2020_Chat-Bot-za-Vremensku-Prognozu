@@ -8,7 +8,6 @@ from models.OneCityWeather import CompleteWeatherInfo
 from models.MessageInfo import MessageInfo
 from typing import Tuple, Union, List
 
-
 class ChatHandler:
 
     def __init__(self):
