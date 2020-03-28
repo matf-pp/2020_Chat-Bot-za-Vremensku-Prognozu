@@ -43,13 +43,12 @@ class ChatBotGUI(ttk.Frame):
 
 
     def get_img_path(self):
+        if os.name != 'nt':
+            return 
+        
         current_dir = os.path.curdir
-        if os.name == 'nt':
-            path = os.path.join(current_dir, 'img', 'icon.ico')
-        else:
-            path = os.path.join(current_dir, 'img', 'icon.xbm')
-            path = '@' + path
-
+        path = os.path.join(current_dir, 'img', 'icon.ico')
+        
         return path
 
 
