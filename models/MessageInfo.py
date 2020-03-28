@@ -13,6 +13,7 @@ class MessageInfo:
 
     def convert_info_to_chat_format(self) -> str:
         chat_format_str = ''
+        chat_format_str += self.add_to_chat_if_exists(self.name, "Name: ")
         chat_format_str += self.add_to_chat_if_exists(self.temp, 'Current temp:')
         chat_format_str += self.add_to_chat_if_exists(self.feels_like, 'Feels like:')
         chat_format_str += self.add_to_chat_if_exists(self.temp_min, 'Min temp:')
@@ -20,7 +21,6 @@ class MessageInfo:
         chat_format_str += self.add_to_chat_if_exists(self.pressure, 'Pressure:')
         chat_format_str += self.add_to_chat_if_exists(self.humidity, 'Humidity:')
         chat_format_str += self.add_to_chat_if_exists(self.wind_speed, 'Wind speed:')
-        chat_format_str += self.add_to_chat_if_exists(self.name, "Name: ")
         
         return chat_format_str
 

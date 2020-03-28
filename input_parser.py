@@ -2,7 +2,8 @@ import re
 
 from backend import (
     get_by_geographic_coordinates,
-    get_by_city_name
+    get_by_city_name,
+    get_by_cities_in_circle
 )
 from models.OneCityWeather import CompleteWeatherInfo
 from typing import Union, Tuple, List
@@ -45,6 +46,9 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
 
     return None
 
+def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
+    return '30', '30'
+
 def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo], None]:
     params = contains_lat_lon(user_input)
     if params:
@@ -55,6 +59,11 @@ def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo],
     if params:
         print(params)
         return get_by_city_name(params)
+
+    params = contains_circle(user_input)
+    if params:
+        print(params)
+        return get_by_cities_in_circle(params)
 
     return None
 

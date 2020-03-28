@@ -18,11 +18,18 @@ class ChatHandler:
     def assign_message_info(self, user: str) -> str:
         return f'[{user} @ {utils.get_current_time()}]: '
 
-    def get_chatbot_response(self, response: MessageInfo) -> str:
+    def get_chatbot_response_for_single_city(self, response: MessageInfo) -> str:
+        chat_response = f'{self.assign_message_info(self.chatbot)}Current weather stats are:\n{response.convert_info_to_chat_format()}\n'
+        return chat_response
+
+    def get_chatbot_response_for_multiple_cities(self, response: List[MessageInfo]) -> str:
+        chat_response = f'{self.assign_message_info(self.chatbot)}Current weather stats are:\n'
+        cities_info = ''
         
-        #? spaces are important, don't fiddle the with placement of """
-        chat_response = ( 
-        f'{self.assign_message_info(self.chatbot)}Current weather stats are:\n{response.convert_info_to_chat_format()}\n')
+        for single_city_info in response:
+            cities_info += single_city_info.convert_info_to_chat_format() + '\n'
+
+        chat_response += cities_info
         return chat_response
 
     def get_wrong_user_input_response(self) -> str:
@@ -39,10 +46,10 @@ class ChatHandler:
             return self.get_wrong_user_input_response()
         
         elif type(response) is MessageInfo:
-            return self.get_chatbot_response(response)
+            return self.get_chatbot_response_for_single_city(response)
         else:
             #? Need handling for List[MessageInfo]
-            return self.get_chatbot_response(response)
+            return self.get_chatbot_response_for_multiple_cities(response)
     
     def determine_user_response(self, user_msg: str) -> str:
         return self.get_user_response(user_msg)

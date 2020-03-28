@@ -1,6 +1,7 @@
 import math
 from models.MessageInfo import MessageInfo
-from models import (CityInCircleWeather, ManyCitiesWeather, OneCityWeather, CompleteInfo)
+from models.CombinedInfo import CombinedInfo
+from models import (CityInCircleWeather, ManyCitiesWeather, OneCityWeather)
 from typing import Union
 
 def scale_temperature(temp: int) -> int:   
@@ -19,7 +20,7 @@ def is_in_Kelvin(temp: float)->bool:
     return temp > 273.15
 
 
-def readable_weather(obj: CompleteInfo) -> MessageInfo:
+def readable_weather(obj: CombinedInfo) -> MessageInfo:
     msg_info = MessageInfo()
 
     try:
