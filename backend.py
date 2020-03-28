@@ -46,6 +46,7 @@ def get_by_city_name(params: str) -> MessageInfo:
 
 
 def get_by_geographic_coordinates(params: Tuple[str, str]) -> MessageInfo:
+    print('get_by_geographic_coordinates')
     lat, lon    = params
     req         = urljoin(URL, f"weather?lat={lat}&lon={lon}&appid={KEY}")
     obj         = make_request(req)
@@ -74,6 +75,7 @@ def get_by_zip_code(params: tuple) -> MessageInfo:
 
 
 def get_by_cities_in_circle(params: Tuple[str, str]) -> List[MessageInfo]:
+    print('get_by_cities_in_circle')
     default_count = 20
     lat, lon = params
     req           = urljoin(URL, f"find?lat={lat}&lon={lon}&cnt={default_count}&appid={KEY}")

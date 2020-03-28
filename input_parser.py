@@ -47,15 +47,33 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
     return None
 
 def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
-    regex = re.compile(r'(in )?circle\s+around.*(lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).* (lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
+    print('contains circle')
+    lat_lon_base = r'.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*'
+    lon_lat_base = r'.*(lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).* (lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).*'
+    
+
+    circle_around_base = r'(in )?circle\s+around'
+    regex = re.compile(circle_around_base + lat_lon_base, REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
         return (match.group('lat'), match.group('lon'))
 
-    regex = re.compile(r'(in )?circle\s+around.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
+    regex = re.compile(circle_around_base + lon_lat_base, REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
         return (match.group('lat'), match.group('lon'))
+
+    all_cities_around_base = r'all\s+cities\s+(around|in\s+the\s+proximity\s+(of){0,1}|near(by){0,1}).*'
+    regex = re.compile(all_cities_around_base + lat_lon_base, REGEX_FLAGS)
+    match = regex.match(user_input)    
+    if match:
+        return (match.group('lat'), match.group('lon'))
+
+    regex = re.compile(all_cities_around_base + lon_lat_base, REGEX_FLAGS)
+    match = regex.match(user_input)    
+    if match:
+        return (match.group('lat'), match.group('lon'))
+    
 
 def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo], None]:
     params = contains_circle(user_input)
