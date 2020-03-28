@@ -3,6 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from models.MessageInfo import MessageInfo
+from models.CombinedInfo import CombinedInfo
 from models import (CityInCircleWeather, ManyCitiesWeather, OneCityWeather)
 from scaling_and_conversion import readable_weather
 from typing import Union,List
@@ -12,15 +13,14 @@ load_dotenv()
 KEY = os.getenv("KEY")
 URL = os.getenv("URL")
 
-CONTAIN_ALL = Union[CityInCircleWeather.CompleteWeatherInfo, ManyCitiesWeather.CompleteWeatherInfo, OneCityWeather.CompleteWeatherInfo, None]
 
-def make_request(req: str) -> CONTAIN_ALL:
+def make_request(req: str) -> CombinedInfo:
     res = requests.get(req)
 
     return res
 
 
-def get_readable_weather(complete_weather_object: CONTAIN_ALL) -> Union[MessageInfo, List[MessageInfo]]:
+def get_readable_weather(complete_weather_object: CombinedInfo) -> Union[MessageInfo, List[MessageInfo]]:
     if isinstance(complete_weather_object, OneCityWeather.CompleteWeatherInfo):
         readable_object = readable_weather(complete_weather_object)
         
@@ -32,7 +32,6 @@ def get_readable_weather(complete_weather_object: CONTAIN_ALL) -> Union[MessageI
             readable_object_list.append(readable_object)
 
         return readable_object_list
-
 
 
 def get_by_city_name(params: str) -> MessageInfo:
