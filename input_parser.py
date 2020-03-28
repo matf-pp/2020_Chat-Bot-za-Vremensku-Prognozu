@@ -4,7 +4,7 @@ from backend import (
     get_by_geographic_coordinates,
     get_by_city_name
 )
-from backend import CompleteWeatherInfo1
+from models.OneCityWeather import CompleteWeatherInfo
 from typing import Union, Tuple, List
 from models.MessageInfo import MessageInfo
 

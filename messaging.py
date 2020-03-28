@@ -4,7 +4,7 @@ from input_parser import (
     determine_response,
 )
 
-from models.OneCityWeatherParser import CompleteWeatherInfo1
+from models.OneCityWeather import CompleteWeatherInfo
 from models.MessageInfo import MessageInfo
 from typing import Tuple, Union, List
 

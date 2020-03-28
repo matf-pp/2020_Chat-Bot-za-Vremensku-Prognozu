@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List
-from models.OneCityWeatherParser import (MainInfo, Wind, Coord)
+from models.OneCityWeather import (MainInfo, Wind, Coord)
 
 
 class WeatherInfo(BaseModel):
@@ -10,7 +10,7 @@ class WeatherInfo(BaseModel):
     name  : str      = None
 
 
-class CompleteWeatherInfoM(BaseModel):
+class CompleteWeatherInfo(BaseModel):
     cnt: int = None
     list : List[WeatherInfo]
 

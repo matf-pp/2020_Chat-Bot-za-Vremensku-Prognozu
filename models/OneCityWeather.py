@@ -13,7 +13,6 @@ class WeatherInfo(BaseModel):
     description : str = None
     icon        : str = None
 
-        
 class MainInfo(BaseModel):
     temp       : float = None
     feels_like : float = None
@@ -28,8 +27,9 @@ class Wind(BaseModel):
     deg   : float = None
         
 
-class CompleteWeatherInfo1(BaseModel):
+class CompleteWeatherInfo(BaseModel):
     coord      : Coord
     weather    : List[WeatherInfo]
     main       : MainInfo
     wind       : Wind
+    name       : str
