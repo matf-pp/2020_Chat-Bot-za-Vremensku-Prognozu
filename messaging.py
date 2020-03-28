@@ -2,10 +2,12 @@ import utils
 from input_parser import (
     is_exit_command,
     determine_response,
+    HELP_STR
 )
 
 from models.OneCityWeather import CompleteWeatherInfo
 from models.MessageInfo import MessageInfo
+from models.ChatbotResponse import ChatbotResponse
 from typing import Tuple, Union, List
 
 class ChatHandler:
@@ -44,9 +46,25 @@ class ChatHandler:
         chat_response = f'{self.assign_message_info(self.username)}{user_msg}\n\n'
         return chat_response
 
-    def determine_chatbot_response(self, response: Union[MessageInfo, List[MessageInfo], None]) -> str:
+    def get_help_response(self) -> str:
+        chat_response = (f"""
+        To get weather by city name you can type something like 'London weather' or 'What's the weather in London'.
+        To get weather by geografic coordinates you must specify lat and lon coordinates of a desired city (ordering is not important).
+        To get weather around some area you must specify lat and lon coordinates and you must add something like: 'Get me weather around lat: X lon Y' of 'All cities near lat: X lon: Y.
+        """)
+        weather_by_city_name = "To get weather by city name you can type something like 'London weather' or 'What's the weather in London'."
+        weather_by_coords = "To get weather by geografic coordinates you must specify lat and lon coordinates of a desired city (ordering is not important)."
+        weather_by_circle = "To get weather around some area you must specify lat and lon coordinates and you must add something like: 'Get me weather around lat: X lon Y' or 'All cities near lat: X lon: Y."
+        
+        chat_response = f'{self.assign_message_info(self.chatbot)}{weather_by_city_name}\n\n{weather_by_coords}\n\n{weather_by_circle}'
+        return chat_response
+
+    def determine_chatbot_response(self, response: ChatbotResponse) -> str:
         if response is None:
             return self.get_wrong_user_input_response()
+        
+        if response == HELP_STR:
+            return self.get_help_response()
         
         elif type(response) is MessageInfo:
             return self.get_chatbot_response_for_single_city(response)
@@ -58,7 +76,7 @@ class ChatHandler:
         return self.get_user_response(user_msg)
 
 
-    def handle_response(self, response: Union[MessageInfo, List[MessageInfo], None], user_msg: str) -> Tuple[str, str]:
+    def handle_response(self, response: ChatbotResponse, user_msg: str) -> Tuple[str, str]:
         chatbot_response = self.determine_chatbot_response(response)
         user_response = self.determine_user_response(user_msg)
 

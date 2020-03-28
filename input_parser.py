@@ -3,13 +3,15 @@ import re
 from backend import (
     get_by_geographic_coordinates,
     get_by_city_name,
-    get_by_cities_in_circle
+    get_by_cities_in_circle,
 )
 from models.OneCityWeather import CompleteWeatherInfo
 from typing import Union, Tuple, List
 from models.MessageInfo import MessageInfo
+from models.ChatbotResponse import ChatbotResponse
 
 REGEX_FLAGS = re.I | re.S
+HELP_STR = 'help'
 
 def is_exit_command(user_input: str) -> bool:
     return user_input.lower().strip() == 'exit'
@@ -47,12 +49,11 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
     return None
 
 def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
-    print('contains circle')
     lat_lon_base = r'.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*'
     lon_lat_base = r'.*(lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).* (lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).*'
     
 
-    circle_around_base = r'(in )?circle\s+around'
+    circle_around_base = r'(in\s+circle)?\s+around'
     regex = re.compile(circle_around_base + lat_lon_base, REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
@@ -74,8 +75,13 @@ def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
     if match:
         return (match.group('lat'), match.group('lon'))
     
+def contains_help(user_input: str) -> str:
+    regex = re.compile(r'help', REGEX_FLAGS)
+    match = regex.match(user_input)    
+    if match:
+        return HELP_STR
 
-def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo], None]:
+def determine_response(user_input: str) -> ChatbotResponse:
     params = contains_circle(user_input)
     if params:
         print(params)
@@ -91,6 +97,10 @@ def determine_response(user_input: str) -> Union[MessageInfo, List[MessageInfo],
         print(params)
         return get_by_city_name(params)
 
+    params = contains_help(user_input)
+    if params:
+        print(params)
+        return HELP_STR
 
     return None
 

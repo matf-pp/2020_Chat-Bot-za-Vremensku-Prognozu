@@ -97,6 +97,5 @@ def get_by_ceveral_city_ids(params: tuple) -> MessageInfo:
 
     return get_readable_weather(weather_obj)
 
-    
 if __name__ == "__main__":
     pass
