@@ -14,13 +14,19 @@ KEY = os.getenv("KEY")
 URL = os.getenv("URL")
 
 
-def make_request(req: str) -> CombinedInfo:
+def make_request(req: str) -> Union[CombinedInfo, None]:
     res = requests.get(req)
-
+    
     return res
 
 
 def get_readable_weather(complete_weather_object: CombinedInfo) -> Union[MessageInfo, List[MessageInfo]]:
+
+    CODE = int(complete_weather_object.cod / 100)
+
+    if CODE == 4 or CODE == 5:
+        return None
+
     if isinstance(complete_weather_object, OneCityWeather.CompleteWeatherInfo):
         readable_object = readable_weather(complete_weather_object)
         
@@ -48,24 +54,7 @@ def get_by_geographic_coordinates(params: Tuple[str, str]) -> MessageInfo:
     lat, lon    = params
     req         = urljoin(URL, f"weather?lat={lat}&lon={lon}&appid={KEY}")
     obj         = make_request(req)
-    weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
     
-    return get_readable_weather(weather_obj)
-
-
-def get_by_city_id(params: int) -> MessageInfo:
-    city_id     = params
-    req         = urljoin(URL, f"weather?id={city_id}&appid={KEY}")
-    obj         = make_request(req)
-    weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
-
-    return get_readable_weather(weather_obj)
-
-
-def get_by_zip_code(params: tuple) -> MessageInfo:
-    zip_code, country_code = params
-    req                    = urljoin(URL, f"weather?zip={zip_code},{country_code}&appid={KEY}")
-    obj         = make_request(req)
     weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
     
     return get_readable_weather(weather_obj)
@@ -78,15 +67,6 @@ def get_by_cities_in_circle(params: Tuple[str, str]) -> List[MessageInfo]:
     obj         = make_request(req)
     weather_obj = CityInCircleWeather.CompleteWeatherInfo.parse_obj(obj.json())
     
-    return get_readable_weather(weather_obj)
-
-
-def get_by_ceveral_city_ids(params: tuple) -> MessageInfo:
-    city_ids = ','.join([str(x) for x in params])
-    req = urljoin(URL, f"group?id={city_ids}&units=metric&appid={KEY}")
-    obj         = make_request(req)
-    weather_obj = ManyCitiesWeather.CompleteWeatherInfo.parse_obj(obj.json())
-
     return get_readable_weather(weather_obj)
 
 if __name__ == "__main__":
