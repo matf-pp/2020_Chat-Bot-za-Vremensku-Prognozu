@@ -4,7 +4,7 @@ from models.OneCityWeather import (Coord, MainInfo)
 import requests
 
 class Wind(BaseModel):
-    speed: int
+    speed: int = None
 
 class WeatherInfo(BaseModel):
     name    : str      = None
@@ -13,9 +13,10 @@ class WeatherInfo(BaseModel):
     wind    : Wind     = None
 
 class CompleteWeatherInfo(BaseModel):
-    cod   : str
-    count : int
-    list  : List[WeatherInfo] 
+    cod   : int = None
+    message: str = None
+    count : int = None
+    list  : List[WeatherInfo] = None 
 
 if __name__ == "__main__":
     pass
