@@ -11,7 +11,9 @@ class WeatherInfo(BaseModel):
 
 
 class CompleteWeatherInfo(BaseModel):
-    cnt: int = None
-    list : List[WeatherInfo]
+    cod     : int = None
+    message : str = None
+    cnt     : int = None
+    list    : List[WeatherInfo] = None
 
 
