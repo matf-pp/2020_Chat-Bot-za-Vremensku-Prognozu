@@ -32,9 +32,4 @@ class MessageInfo:
 
 
 if __name__ == "__main__":
-    msg_info = MessageInfo()
-    print(msg_info.convert_info_to_chat_format())
-
-    msg_info.temp = 'TEST_TEMP'
-    msg_info.feels_like = 'TEST_FEELS_LIKE'
-    print(msg_info.convert_info_to_chat_format())
+    pass

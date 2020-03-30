@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from models.MessageInfo import MessageInfo
 from models.CombinedInfo import CombinedInfo
+from models.ChatbotResponse import ClientError, ServerError, ChatbotResponse
 from models import (CityInCircleWeather, ManyCitiesWeather, OneCityWeather)
 from scaling_and_conversion import readable_weather
 from typing import Union, List, Tuple
@@ -20,12 +21,14 @@ def make_request(req: str) -> Union[CombinedInfo, None]:
     return res
 
 
-def get_readable_weather(complete_weather_object: CombinedInfo) -> Union[MessageInfo, List[MessageInfo]]:
+def get_readable_weather(complete_weather_object: CombinedInfo) -> ChatbotResponse:
 
     CODE = int(complete_weather_object.cod / 100)
 
-    if CODE == 4 or CODE == 5:
-        return None
+    if CODE == 4:
+        return ClientError
+    if  CODE == 5:
+        return ServerError
 
     if isinstance(complete_weather_object, OneCityWeather.CompleteWeatherInfo):
         readable_object = readable_weather(complete_weather_object)

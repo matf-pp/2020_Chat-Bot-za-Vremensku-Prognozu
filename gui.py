@@ -59,7 +59,6 @@ class ChatBotGUI(ttk.Frame):
         self.populate_chat()
 
     def send_message(self, event=None):
-        print('send_message')
         msg = self.entry_send_message.get()
         if len(msg) == 0:
             return

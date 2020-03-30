@@ -8,10 +8,9 @@ from backend import (
 from models.OneCityWeather import CompleteWeatherInfo
 from typing import Union, Tuple, List
 from models.MessageInfo import MessageInfo
-from models.ChatbotResponse import ChatbotResponse
+from models.ChatbotResponse import ChatbotResponse, HelpString
 
 REGEX_FLAGS = re.I | re.S
-HELP_STR = 'help'
 
 def is_exit_command(user_input: str) -> bool:
     return user_input.lower().strip() == 'exit'
@@ -79,7 +78,7 @@ def contains_help(user_input: str) -> str:
     regex = re.compile(r'help', REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
-        return HELP_STR
+        return HelpString
 
 def determine_response(user_input: str) -> ChatbotResponse:
     params = contains_circle(user_input)
@@ -96,7 +95,7 @@ def determine_response(user_input: str) -> ChatbotResponse:
 
     params = contains_help(user_input)
     if params:
-        return HELP_STR
+        return HelpString
 
     return None
 

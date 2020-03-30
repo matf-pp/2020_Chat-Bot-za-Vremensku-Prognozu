@@ -28,8 +28,10 @@ class Wind(BaseModel):
         
 
 class CompleteWeatherInfo(BaseModel):
-    coord      : Coord
-    weather    : List[WeatherInfo]
-    main       : MainInfo
-    wind       : Wind
-    name       : str
+    cod        : int  = None
+    message    : str  = None
+    coord      : Coord  = None
+    weather    : List[WeatherInfo] = None
+    main       : MainInfo = None
+    wind       : Wind = None
+    name       : str = None

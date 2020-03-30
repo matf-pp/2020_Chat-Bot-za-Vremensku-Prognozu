@@ -2,12 +2,11 @@ import utils
 from input_parser import (
     is_exit_command,
     determine_response,
-    HELP_STR
 )
 
 from models.OneCityWeather import CompleteWeatherInfo
 from models.MessageInfo import MessageInfo
-from models.ChatbotResponse import ChatbotResponse
+from models.ChatbotResponse import ChatbotResponse, ClientError, ServerError, HelpString
 from typing import Tuple, Union, List
 
 class ChatHandler:
@@ -37,9 +36,8 @@ class ChatHandler:
         chat_response += cities_info
         return chat_response
 
-    def get_wrong_user_input_response(self) -> str:
-        input_not_recognized_msg = 'Your input is not recognized, please try again.'
-        chat_response = f'{self.assign_message_info(self.chatbot)}{input_not_recognized_msg}\n\n'
+    def get_wrong_user_input_response(self, error_msg: str) -> str:
+        chat_response = f'{self.assign_message_info(self.chatbot)}{error_msg}\n\n'
         return chat_response
 
     def get_user_response(self, user_msg: str) -> str:
@@ -61,15 +59,21 @@ class ChatHandler:
 
     def determine_chatbot_response(self, response: ChatbotResponse) -> str:
         if response is None:
-            return self.get_wrong_user_input_response()
+            return self.get_wrong_user_input_response(ClientError)
         
-        if response == HELP_STR:
+        if response == ServerError:
+            return self.get_wrong_user_input_response(ServerError)
+        
+        if response == ClientError:
+            return self.get_wrong_user_input_response(ClientError)
+
+        if response == HelpString:
             return self.get_help_response()
         
-        elif type(response) is MessageInfo:
+        if type(response) is MessageInfo:
             return self.get_chatbot_response_for_single_city(response)
-        else:
-            #? Need handling for List[MessageInfo]
+
+        if type(response) is List[MessageInfo]:
             return self.get_chatbot_response_for_multiple_cities(response)
     
     def determine_user_response(self, user_msg: str) -> str:
@@ -92,6 +96,4 @@ def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
 
 
 if __name__ == "__main__":
-    user_response, chatbot_response = receive_message_and_make_response('London weather')
-    print(user_response)
-    print(chatbot_response)
+    pass
