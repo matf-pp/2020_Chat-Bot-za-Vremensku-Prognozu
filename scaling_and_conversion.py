@@ -2,10 +2,10 @@ import math
 from models.MessageInfo import MessageInfo
 from models.CombinedInfo import CombinedInfo
 from models import (CityInCircleWeather, ManyCitiesWeather, OneCityWeather)
+from models.OneCityWeather import MainInfo
 from typing import Union
 
 def scale_temperature(temp: int) -> int:   
-    
     return round(temp - 273.15, 2)
 
 
@@ -16,68 +16,35 @@ def convert_to_string_and_add_units(val: int, unit: str)->str:
 
 
 def is_in_Kelvin(temp: float)->bool:
-
     return temp > 273.15
+
+
+def get_attribute_and_add_units(obj: Union[CombinedInfo, int], attribute:str,  units: str) -> Union[MainInfo, str, None]:
+    attr = getattr(obj, attribute, None)
+    if attr is None:
+        return None
+    if units is None:
+        return attr
+    else:
+        return convert_to_string_and_add_units(attr, units)
 
 
 def readable_weather(obj: CombinedInfo) -> MessageInfo:
     msg_info = MessageInfo()
+    MainInfo = get_attribute_and_add_units(obj, "main", None)
 
-    try:
-        MainInfo = obj.main
+    if MainInfo == None:
+        return None
 
-        try:
-            if is_in_Kelvin(MainInfo.temp):
-                MainInfo.temp       = scale_temperature(MainInfo.temp)
-                msg_info.temp       = convert_to_string_and_add_units(MainInfo.temp, " °C")
-        except AttributeError:
-            print("Field temp doesn't exist")
-
-        try:
-            if is_in_Kelvin(MainInfo.feels_like):
-                MainInfo.feels_like = scale_temperature(MainInfo.feels_like)
-                msg_info.feels_like = convert_to_string_and_add_units(MainInfo.feels_like, " °C")
-        except AttributeError:
-            print("Field feels_like doesn't exist")
-
-        try:    
-            if is_in_Kelvin(MainInfo.temp_min):
-                MainInfo.temp_min = scale_temperature(MainInfo.temp_min)
-                msg_info.temp_min = convert_to_string_and_add_units(MainInfo.temp_min, " °C")
-        except AttributeError:
-            print("Field temp_min doesn't exist")
-
-        try:
-            if is_in_Kelvin(MainInfo.temp_max):
-                MainInfo.temp_max = scale_temperature(MainInfo.temp_max)
-                msg_info.temp_max = convert_to_string_and_add_units(MainInfo.temp_max, " °C")
-        except AttributeError:
-            print("Field temp_max doesn't exist")
-
-        
-        try:
-            msg_info.humidity   = convert_to_string_and_add_units(MainInfo.humidity, " %")
-        except AttributeError:
-            print("Field humidity doesn't exist")
-
-        try:
-            msg_info.pressure   = convert_to_string_and_add_units(MainInfo.pressure, " mbar")
-        except AttributeError:
-            print("Field pressure doesn't exist")
-
-        try:
-            msg_info.wind_speed = convert_to_string_and_add_units(obj.wind.speed, " m/s")
-        except AttributeError:
-            print("Field wind_speed doesn't exist")
-
-        try:
-            msg_info.name       = obj.name
-        except AttributeError:
-            print("Field name doesn't exist")
-
-    except AttributeError:
-        print("Field main doesn't exist")
-
+    msg_info.temp = get_attribute_and_add_units(MainInfo, "temp", " °C")
+    msg_info.feels_like = get_attribute_and_add_units(MainInfo, "feels_like", " °C")
+    msg_info.temp_min = get_attribute_and_add_units(MainInfo, "temp_min", " °C")
+    msg_info.temp_max = get_attribute_and_add_units(MainInfo, "temp_max", " °C")
+    msg_info.humidity = get_attribute_and_add_units(MainInfo, "humidity", " %")
+    msg_info.pressure = get_attribute_and_add_units(MainInfo, "pressure", " mbar")
+    msg_info.wind_speed = get_attribute_and_add_units(MainInfo, "wind.speed", " m/s")
+    msg_info.name = get_attribute_and_add_units(obj, "name", None)
+    
     return msg_info
 
 

@@ -45,18 +45,18 @@ def get_readable_weather(complete_weather_object: CombinedInfo) -> ChatbotRespon
 
 
 def get_by_city_name(params: str) -> MessageInfo:
-    city_name   = params
-    req         = urljoin(URL, f"weather?q={city_name}&appid={KEY}")    
-    obj         = make_request(req)
+    city_name = params
+    req = urljoin(URL, f"weather?q={city_name}&appid={KEY}")    
+    obj = make_request(req)
     weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
 
     return get_readable_weather(weather_obj)
 
 
 def get_by_geographic_coordinates(params: Tuple[str, str]) -> MessageInfo:
-    lat, lon    = params
-    req         = urljoin(URL, f"weather?lat={lat}&lon={lon}&appid={KEY}")
-    obj         = make_request(req)
+    lat, lon = params
+    req = urljoin(URL, f"weather?lat={lat}&lon={lon}&appid={KEY}")
+    obj = make_request(req)
     
     weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
     
@@ -66,8 +66,8 @@ def get_by_geographic_coordinates(params: Tuple[str, str]) -> MessageInfo:
 def get_by_cities_in_circle(params: Tuple[str, str]) -> List[MessageInfo]:
     default_count = 20
     lat, lon = params
-    req           = urljoin(URL, f"find?lat={lat}&lon={lon}&cnt={default_count}&appid={KEY}")
-    obj         = make_request(req)
+    req = urljoin(URL, f"find?lat={lat}&lon={lon}&cnt={default_count}&appid={KEY}")
+    obj = make_request(req)
     weather_obj = CityInCircleWeather.CompleteWeatherInfo.parse_obj(obj.json())
     
     return get_readable_weather(weather_obj)
