@@ -7,6 +7,10 @@ Ideja je da se pomocu API servisa implementira chat bot koji ce moci da daje inf
 - [pydantic](https://pydantic-docs.helpmanual.io/)
 - [dotenv](https://pypi.org/project/python-dotenv/)
 
+Biblioteke možete instalirati ručno ili možete pokrenuti komandu:
+
+> pip install -r requirements.txt
+
 ## Pokretanje programa
 
 Da biste pokrenuli program, dovoljno je da ukucate sledeću komandu:
