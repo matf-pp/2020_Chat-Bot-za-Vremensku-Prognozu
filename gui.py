@@ -77,7 +77,8 @@ class ChatBotGUI(ttk.Frame):
                 self.text_chat_history.insert(tk.END, user_msg)
             if chatbot_res:
                 self.text_chat_history.insert(tk.END, chatbot_res)
-            
+        
+        self.text_chat_history.see('end')
         self.text_chat_history.configure(state = tk.DISABLED)
 
 def main():

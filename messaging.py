@@ -54,7 +54,7 @@ class ChatHandler:
         weather_by_coords = "To get weather by geografic coordinates you must specify lat and lon coordinates of a desired city (ordering is not important)."
         weather_by_circle = "To get weather around some area you must specify lat and lon coordinates and you must add something like: 'Get me weather around lat: X lon Y' or 'All cities near lat: X lon: Y."
         
-        chat_response = f'{self.assign_message_info(self.chatbot)}{weather_by_city_name}\n\n{weather_by_coords}\n\n{weather_by_circle}'
+        chat_response = f'{self.assign_message_info(self.chatbot)}{weather_by_city_name}\n\n{weather_by_coords}\n\n{weather_by_circle}\n\n'
         return chat_response
 
     def determine_chatbot_response(self, response: ChatbotResponse) -> str:
@@ -73,7 +73,7 @@ class ChatHandler:
         if type(response) is MessageInfo:
             return self.get_chatbot_response_for_single_city(response)
 
-        if type(response) is List[MessageInfo]:
+        if type(response) is list:
             return self.get_chatbot_response_for_multiple_cities(response)
     
     def determine_user_response(self, user_msg: str) -> str:
