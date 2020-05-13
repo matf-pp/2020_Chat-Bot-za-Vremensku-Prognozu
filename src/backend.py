@@ -48,6 +48,7 @@ def get_by_city_name(params: str) -> MessageInfo:
     city_name = params
     req = urljoin(URL, f"weather?q={city_name}&appid={KEY}")    
     obj = make_request(req)
+
     weather_obj = OneCityWeather.CompleteWeatherInfo.parse_obj(obj.json())
 
     return get_readable_weather(weather_obj)

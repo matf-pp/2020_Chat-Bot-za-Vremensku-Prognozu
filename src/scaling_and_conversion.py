@@ -5,26 +5,36 @@ from models import (CityInCircleWeather, ManyCitiesWeather, OneCityWeather)
 from models.OneCityWeather import MainInfo
 from typing import Union
 
-def scale_temperature(temp: int) -> int:   
-    return round(temp - 273.15, 2)
-
-
-def convert_to_string_and_add_units(val: int, unit: str)->str:
-    str_val = str(val) + unit
-
-    return str_val
-
 
 def is_in_Kelvin(temp: float)->bool:
     return temp > 273.15
+
+def scale_temperature(temp: int) -> int:   
+    if is_in_Kelvin(temp):
+        return round(temp - 273.15, 2)
+    else:
+        return round(temp, 2)
+
+def convert_temp_to_string_and_add_units(val, unit):
+    str_val = str(scale_temperature(val)) + unit
+    return str_val
+
+def convert_to_string_and_add_units(val: int, unit: str)->str:
+    str_val = str(val) + unit
+    return str_val
 
 
 def get_attribute_and_add_units(obj: Union[CombinedInfo, int], attribute:str,  units: str) -> Union[MainInfo, str, None]:
     attr = getattr(obj, attribute, None)
     if attr is None:
         return None
-    if units is None:
+    
+    elif units is None:
         return attr
+    
+    elif 'temp' in attribute:
+        return convert_temp_to_string_and_add_units(attr, units)
+
     else:
         return convert_to_string_and_add_units(attr, units)
 
