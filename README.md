@@ -6,6 +6,11 @@ Za dobavljanje informacija o vremenu je koriščen je [OpenWeather API](https://
 
 Za izradu korisničkog interfejsa je korišćena biblioteka Tkinter koja dolazi kao deo standardne Python 3 biblioteke.
 
+![startup.png](https://i.postimg.cc/d0tJJxz5/startup.png)
+
+![one-query.png](https://i.postimg.cc/pLB2bH19/one-query.png)
+
+![big-query.png](https://i.postimg.cc/q7LHYxq2/big-query.png)
 
 ## Biblioteke potrebne za rad programa: 
 
