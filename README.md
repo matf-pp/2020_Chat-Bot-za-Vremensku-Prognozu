@@ -2,6 +2,11 @@
 
 Ideja je da se pomocu API servisa implementira chat bot koji ce moci da daje informacije o vremenskoj prognozi.
 
+Za dobavljanje informacija o vremenu je koriščen je [OpenWeather API](https://openweathermap.org/api).  
+
+Za izradu korisničkog interfejsa je korišćena biblioteka Tkinter koja dolazi kao deo standardne Python 3 biblioteke.
+
+
 ## Biblioteke potrebne za rad programa: 
 
 - [pydantic](https://pydantic-docs.helpmanual.io/)
