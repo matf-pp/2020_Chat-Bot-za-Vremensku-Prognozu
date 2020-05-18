@@ -8,6 +8,7 @@ from models.OneCityWeather import CompleteWeatherInfo
 from models.MessageInfo import MessageInfo
 from models.ChatbotResponse import ChatbotResponse, ClientError, ServerError, HelpString
 from typing import Tuple, Union, List
+from backend import set_key_and_url
 
 class ChatHandler:
 
@@ -21,9 +22,18 @@ class ChatHandler:
     def display_welcome_message(self) -> str:
         chat_response = f'{self.assign_message_info(self.chatbot)} Ask me a question about the weather, \nor type "help" if you are not sure what to do!\n'
         return chat_response
+    
+    def missing_info_handler(self) -> str:
+        chat_response = f'\n{self.assign_message_info(self.chatbot)} .env file is missing or incomplete.\nPlease provide us with your API KEY and URL in order to make requests.\nEnter them in format: KEY : your_key, URL: your_url.\n'
+        return chat_response
 
     def get_chatbot_response_for_single_city(self, response: MessageInfo) -> str:
         chat_response = f'{self.assign_message_info(self.chatbot)}Current weather stats are:\n{response.convert_info_to_chat_format()}\n'
+        return chat_response
+
+    def get_chatbot_response_for_tuple(self, response:Tuple):
+        set_key_and_url(response)
+        chat_response = f'{self.assign_message_info(self.chatbot)} KEY and URL successfully updated!\n'
         return chat_response
 
     def get_chatbot_response_for_multiple_cities(self, response: List[MessageInfo]) -> str:
@@ -53,8 +63,9 @@ class ChatHandler:
         weather_by_city_name = "To get weather by city name you can type something like 'London weather' or 'What's the weather in London'."
         weather_by_coords = "To get weather by geografic coordinates you must specify lat and lon coordinates of a desired city (ordering is not important)."
         weather_by_circle = "To get weather around some area you must specify lat and lon coordinates and you must add something like: 'Get me weather around lat: X lon Y' or 'All cities near lat: X lon: Y."
-        
-        chat_response = f'{self.assign_message_info(self.chatbot)}{weather_by_city_name}\n\n{weather_by_coords}\n\n{weather_by_circle}\n\n'
+        change_API_KEY_and_URL = "To change your API KEY and URL, you can type something like 'change KEY:your_key and URL:your_url'"
+
+        chat_response = f'{self.assign_message_info(self.chatbot)}{weather_by_city_name}\n\n{weather_by_coords}\n\n{weather_by_circle}\n\n{change_API_KEY_and_URL}\n\n'
         return chat_response
 
     def determine_chatbot_response(self, response: ChatbotResponse) -> str:
@@ -75,10 +86,16 @@ class ChatHandler:
 
         if type(response) is list:
             return self.get_chatbot_response_for_multiple_cities(response)
+        
+        if type(response) is tuple:
+            return self.get_chatbot_response_for_tuple(response)
     
     def determine_user_response(self, user_msg: str) -> str:
         return self.get_user_response(user_msg)
 
+    def successful_update(self):
+        chat_response = f'\n{self.assign_message_info(self.chatbot)} API KEY and URL successfully updated!\n\n'
+        return chat_response
 
     def handle_response(self, response: ChatbotResponse, user_msg: str) -> Tuple[str, str]:
         chatbot_response = self.determine_chatbot_response(response)
@@ -94,6 +111,12 @@ def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
     response = determine_response(user_msg)
     return ChatHandler().handle_response(response, user_msg)
 
+def missing_info_handler():
+    return ChatHandler().missing_info_handler()
+
+def successful_update():
+    return ChatHandler().successful_update()
 
 if __name__ == "__main__":
     pass
+

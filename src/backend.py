@@ -14,6 +14,15 @@ load_dotenv()
 KEY = os.getenv("KEY")
 URL = os.getenv("URL")
 
+def api_key_and_url_doesnot_exist():
+    if KEY == None or URL == None:
+        return True
+    return False
+
+def set_key_and_url(result: Tuple[str, str])->None:
+    global KEY
+    global URL
+    KEY, URL = result
 
 def make_request(req: str) -> Union[CombinedInfo, None]:
     res = requests.get(req)

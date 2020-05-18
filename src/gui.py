@@ -3,8 +3,8 @@ from tkinter import ttk
 import messaging
 import os
 from typing import Tuple, List
-
-
+from backend import api_key_and_url_doesnot_exist, set_key_and_url
+from input_parser import contains_API_KEY_and_URL
 class ChatBotGUI(ttk.Frame):
 
     def __init__(self, root):
@@ -55,14 +55,28 @@ class ChatBotGUI(ttk.Frame):
 
     def display_welcome_message(self):
         #? user_msg is None because we don't have any user response on program start
+
         self.chat_history.append((None, messaging.display_welcome_message()))
         self.populate_chat()
+
+        if api_key_and_url_doesnot_exist():
+            self.chat_history.append((None, messaging.missing_info_handler()))
+            self.populate_chat()
 
     def send_message(self, event=None):
         msg = self.entry_send_message.get()
         if len(msg) == 0:
             return
         
+        if api_key_and_url_doesnot_exist():
+            result = contains_API_KEY_and_URL(msg)
+            if result is None:
+                self.chat_history.append((None, messaging.missing_info_handler()))
+                self.populate_chat()
+                self.entry_send_message.delete(0, tk.END)
+                return
+
+
         messaging_response = messaging.receive_message_and_make_response(msg)
         self.chat_history.append(messaging_response)
         self.populate_chat()

@@ -73,7 +73,24 @@ def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
     match = regex.match(user_input)    
     if match:
         return (match.group('lat'), match.group('lon'))
-    
+
+def contains_API_KEY_and_URL(input_msg):
+    api_url_base = r".*(KEY)\s*:\s*(?P<api_key>[A-Za-z0-9]+).* (URL|url)\s*:\s*(?P<url>http:\/\/api.openweathermap.org\/data\/[2-9]\.[0-9]\/.*)"
+    url_api_base = r".*(URL)\s*:\s*(?P<url>http:\/\/api.openweathermap.org\/data\/[2-9]\.[0-9]\/.* (KEY|key)\s*:\s*(?P<api_key>[A-Za-z0-9]+).*)"
+
+    regex = re.compile(api_url_base, REGEX_FLAGS)
+    match = regex.match(input_msg)
+
+    if match:
+        return (match.group('api_key'), match.group('url'))
+
+    regex = re.compile(url_api_base, REGEX_FLAGS)
+    match = regex.match(input_msg)
+    if match:
+        return (match.group('api_key'), match.group('url'))
+
+    return None  
+
 def contains_help(user_input: str) -> str:
     regex = re.compile(r'help', REGEX_FLAGS)
     match = regex.match(user_input)    
@@ -96,6 +113,10 @@ def determine_response(user_input: str) -> ChatbotResponse:
     params = contains_help(user_input)
     if params:
         return HelpString
+
+    key_and_url = contains_API_KEY_and_URL(user_input)
+    if key_and_url:
+        return key_and_url    
 
     return None
 
