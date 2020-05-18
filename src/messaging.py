@@ -24,7 +24,7 @@ class ChatHandler:
         return chat_response
     
     def missing_info_handler(self) -> str:
-        chat_response = f'\n{self.assign_message_info(self.chatbot)} .env file is missing or incomplete.\nPlease provide the application with your API KEY and URL in order to make requests.\nEnter them in format: KEY : your_key, URL: your_url.\n'
+        chat_response = f'\n{self.assign_message_info(self.chatbot)} .env file is missing or incomplete.\nPlease provide the application with your API KEY and URL in order to make\n requests. Enter them in format: KEY : your_key, URL: your_url.\n'
         return chat_response
 
     def get_chatbot_response_for_single_city(self, response: MessageInfo) -> str:
