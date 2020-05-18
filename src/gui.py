@@ -68,7 +68,9 @@ class ChatBotGUI(ttk.Frame):
         if len(msg) == 0:
             return
         
-        if api_key_and_url_doesnot_exist():
+
+
+        if api_key_and_url_doesnot_exist() and msg != "help":
             result = contains_API_KEY_and_URL(msg)
             if result is None:
                 self.chat_history.append((None, messaging.missing_info_handler()))
