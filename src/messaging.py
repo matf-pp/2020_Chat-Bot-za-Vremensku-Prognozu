@@ -24,7 +24,11 @@ class ChatHandler:
         return chat_response
     
     def missing_info_handler(self) -> str:
-        chat_response = f'\n{self.assign_message_info(self.chatbot)} .env file is missing or incomplete.\nPlease provide the application with your API KEY and URL in order to make\n requests. Enter them in format: KEY : your_key, URL: your_url.\n'
+        chat_response = f'\n{self.assign_message_info(self.chatbot)} .env file is missing or incomplete.\nPlease provide the application with your API KEY and URL in order to make\n requests. Enter them in format: KEY: your_key, URL: your_url.\n'
+        return chat_response
+    
+    def wrong_api_key_or_url_format(self) -> str:
+        chat_response = f'\n{self.assign_message_info(self.chatbot)} API KEY or URL in wrong format.\nCorrect formats are:\nAPI KEY: english alphabet letters and numbers\nURL: needs to start with: http://api.openweathermap.org/data/ and then API version should be added.\nFor more info, check help.\n'
         return chat_response
 
     def get_chatbot_response_for_single_city(self, response: MessageInfo) -> str:
@@ -33,7 +37,7 @@ class ChatHandler:
 
     def get_chatbot_response_for_tuple(self, response:Tuple):
         set_key_and_url(response)
-        chat_response = f'{self.assign_message_info(self.chatbot)} KEY and URL successfully updated!\n'
+        chat_response = f'{self.assign_message_info(self.chatbot)} API KEY and URL successfully updated!\n'
         return chat_response
 
     def get_chatbot_response_for_multiple_cities(self, response: List[MessageInfo]) -> str:
@@ -64,7 +68,7 @@ class ChatHandler:
         weather_by_coords = "To get weather by geografic coordinates you must specify lat and lon coordinates of a desired city (ordering is not important)."
         weather_by_circle = "To get weather around some area you must specify lat and lon coordinates and you must add something like: 'Get me weather around lat: X lon Y' or 'All cities near lat: X lon: Y."
         change_API_KEY_and_URL = "To change your API KEY and URL, you can type something like 'change KEY:your_key and URL:your_url'"
-        set_API_KEY_and_URL = """Before application can make requests, you should make sure that .env file\nexists, with correct API key and URL in it.If you don't have it,\nthe application will let you set it inside GUI, with command: set KEY: your_api_key URL: your_url
+        set_API_KEY_and_URL = """Before application can make requests, you should make sure that .env file\nexists, with correct API key and URL in it. If you don't have .env file\nthe application will let you set API KEY and URL inside GUI with command:\nset KEY: your_api_key URL: your_url\nIf you don't have API KEY, you should register\nat: https://openweathermap.org/api
         """
         chat_response = f'{self.assign_message_info(self.chatbot)}\n{set_API_KEY_and_URL}\n{weather_by_city_name}\n\n{weather_by_coords}\n\n{weather_by_circle}\n\n{change_API_KEY_and_URL}\n\n'
         return chat_response
@@ -117,6 +121,9 @@ def missing_info_handler():
 
 def successful_update():
     return ChatHandler().successful_update()
+
+def wrong_api_key_or_url_format():
+    return ChatHandler().wrong_api_key_or_url_format()
 
 if __name__ == "__main__":
     pass

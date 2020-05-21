@@ -97,6 +97,9 @@ def contains_help(user_input: str) -> str:
     if match:
         return HelpString
 
+def user_making_request(user_input: str):
+    return (contains_circle(user_input) or contains_lat_lon(user_input) or contains_city_name(user_input))
+
 def determine_response(user_input: str) -> ChatbotResponse:
     params = contains_circle(user_input)
     if params:

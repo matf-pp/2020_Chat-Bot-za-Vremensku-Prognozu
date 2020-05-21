@@ -4,7 +4,7 @@ import messaging
 import os
 from typing import Tuple, List
 from backend import api_key_and_url_doesnot_exist, set_key_and_url
-from input_parser import contains_API_KEY_and_URL
+from input_parser import contains_API_KEY_and_URL, user_making_request
 class ChatBotGUI(ttk.Frame):
 
     def __init__(self, root):
@@ -71,9 +71,15 @@ class ChatBotGUI(ttk.Frame):
 
 
         if api_key_and_url_doesnot_exist() and msg != "help":
+            if user_making_request(msg):
+                self.chat_history.append((None, messaging.missing_info_handler()))
+                self.populate_chat()
+                self.entry_send_message.delete(0, tk.END)
+                return
+
             result = contains_API_KEY_and_URL(msg)
             if result is None:
-                self.chat_history.append((None, messaging.missing_info_handler()))
+                self.chat_history.append((None, messaging.wrong_api_key_or_url_format()))
                 self.populate_chat()
                 self.entry_send_message.delete(0, tk.END)
                 return
