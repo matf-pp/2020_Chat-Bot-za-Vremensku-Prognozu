@@ -68,7 +68,7 @@ class ChatHandler:
         weather_by_coords = "To get weather by geografic coordinates you must specify lat and lon coordinates of a desired city (ordering is not important)."
         weather_by_circle = "To get weather around some area you must specify lat and lon coordinates and you must add something like: 'Get me weather around lat: X lon Y' or 'All cities near lat: X lon: Y."
         change_API_KEY_and_URL = "To change your API KEY and URL, you can type something like 'change KEY:your_key and URL:your_url'"
-        set_API_KEY_and_URL = """Before application can make requests, you should make sure that .env file\nexists, with correct API key and URL in it. If you don't have .env file\nthe application will let you set API KEY and URL inside GUI with command:\nset KEY: your_api_key URL: your_url\nIf you don't have API KEY, you should register\nat: https://openweathermap.org/api
+        set_API_KEY_and_URL = """Before application can make requests, you should make sure that .env file\nexists, with correct API key and URL in it. If you don't have .env file\nthe application will ask you to set API KEY and URL inside the GUI.\nIf you don't have API KEY, you should \nregister at: https://openweathermap.org/api and you'll get the key.
         """
         chat_response = f'{self.assign_message_info(self.chatbot)}\n{set_API_KEY_and_URL}\n{weather_by_city_name}\n\n{weather_by_coords}\n\n{weather_by_circle}\n\n{change_API_KEY_and_URL}\n\n'
         return chat_response

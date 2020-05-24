@@ -4,7 +4,7 @@ import messaging
 import os
 from typing import Tuple, List
 from backend import api_key_and_url_not_present
-from input_parser import contains_API_KEY_and_URL, user_making_request, contains_help
+from input_parser import contains_valid_api_key_and_url, user_making_request, contains_help
 class ChatBotGUI(ttk.Frame):
 
     def __init__(self, root):
@@ -74,7 +74,7 @@ class ChatBotGUI(ttk.Frame):
             if user_making_request(msg):
                 messaging_response = (None, messaging.missing_info_handler())
             
-            elif contains_API_KEY_and_URL(msg) is None:
+            elif contains_valid_api_key_and_url(msg) is None:
                     messaging_response = (None, messaging.wrong_api_key_or_url_format())
                     
 

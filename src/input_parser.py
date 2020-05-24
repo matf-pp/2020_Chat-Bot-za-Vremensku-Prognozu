@@ -1,21 +1,24 @@
 import re
+from urllib.parse import urljoin
 
 from backend import (
     get_by_geographic_coordinates,
     get_by_city_name,
     get_by_cities_in_circle,
+    make_request
 )
 from models.OneCityWeather import CompleteWeatherInfo
-from typing import Union, Tuple, List
+from typing import Union, Tuple, List, Optional
 from models.MessageInfo import MessageInfo
 from models.ChatbotResponse import ChatbotResponse, HelpString
+
 
 REGEX_FLAGS = re.I | re.S
 
 def is_exit_command(user_input: str) -> bool:
     return user_input.lower().strip() == 'exit'
 
-def contains_city_name(user_input: str) -> Union[str, None]:
+def contains_city_name(user_input: str) -> Optional[str]:
     """
     Receives user_input 
 
@@ -34,7 +37,7 @@ def contains_city_name(user_input: str) -> Union[str, None]:
     
     return None
 
-def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
+def contains_lat_lon(user_input: str) -> Optional[Tuple[str, str]]:
     regex = re.compile(r'.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*', REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
@@ -47,7 +50,7 @@ def contains_lat_lon(user_input: str) -> Union[Tuple[str, str], None]:
 
     return None
 
-def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
+def contains_circle(user_input: str) -> Optional[Tuple[str, str]]:
     lat_lon_base = r'.*(lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).* (lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).*'
     lon_lat_base = r'.*(lon:|lon)\s*(?P<lon>[0-9]{1,3}(\.[0-9]+){0,1}).* (lat:|lat)\s*(?P<lat>[0-9]{1,3}(\.[0-9]+){0,1}).*'
     
@@ -74,24 +77,41 @@ def contains_circle(user_input: str) -> Union[Tuple[str, str]]:
     if match:
         return (match.group('lat'), match.group('lon'))
 
-def contains_API_KEY_and_URL(input_msg):
+def contains_API_KEY_and_URL(user_input) -> Optional[Tuple[str, str]]:
     api_url_base = r".*(KEY)\s*:\s*(?P<api_key>[A-Za-z0-9]+).* (URL|url)\s*:\s*(?P<url>http:\/\/api.openweathermap.org\/data\/[2-9]\.[0-9]\/.*)"
     url_api_base = r".*(URL)\s*:\s*(?P<url>http:\/\/api.openweathermap.org\/data\/[2-9]\.[0-9]\/.* (KEY|key)\s*:\s*(?P<api_key>[A-Za-z0-9]+).*)"
 
     regex = re.compile(api_url_base, REGEX_FLAGS)
-    match = regex.match(input_msg)
+    match = regex.match(user_input)
 
     if match:
         return (match.group('api_key'), match.group('url'))
 
     regex = re.compile(url_api_base, REGEX_FLAGS)
-    match = regex.match(input_msg)
+    match = regex.match(user_input)
     if match:
         return (match.group('api_key'), match.group('url'))
 
     return None  
 
-def contains_help(user_input: str) -> str:
+def contains_valid_api_key_and_url(user_input: str) -> Optional[Tuple[str, str]]:
+    
+    if not contains_API_KEY_and_URL(user_input):
+        return None
+
+    key, url = contains_API_KEY_and_URL(user_input)
+    #? Just check if we'll get 4** response, if that's the case, something is wrong with key and/or url
+    req = urljoin(url, f"weather?q=Belgrade&appid={key}") 
+
+    res = make_request(req)
+
+    if res.status_code // 100 == 4:
+        return None
+    
+    return key, url
+
+
+def contains_help(user_input: str) -> Optional[str]:
     regex = re.compile(r'help', REGEX_FLAGS)
     match = regex.match(user_input)    
     if match:
