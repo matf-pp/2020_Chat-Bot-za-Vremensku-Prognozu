@@ -32,7 +32,7 @@ def get_attribute_and_add_units(obj: Union[CombinedInfo, int], attribute:str,  u
     elif units is None:
         return attr
     
-    elif 'temp' in attribute:
+    elif 'temp' in attribute or 'feels_like' in attribute:
         return convert_temp_to_string_and_add_units(attr, units)
 
     else:
