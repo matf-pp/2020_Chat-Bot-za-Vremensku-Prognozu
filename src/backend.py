@@ -14,7 +14,7 @@ load_dotenv()
 KEY = os.getenv("KEY")
 URL = os.getenv("URL")
 
-def api_key_and_url_doesnot_exist():
+def api_key_and_url_not_present():
     if KEY == None or URL == None:
         return True
     return False
@@ -26,9 +26,7 @@ def set_key_and_url(result: Tuple[str, str])->None:
 
 def make_request(req: str) -> Union[CombinedInfo, None]:
     res = requests.get(req)
-    
     return res
-
 
 def get_readable_weather(complete_weather_object: CombinedInfo) -> ChatbotResponse:
 

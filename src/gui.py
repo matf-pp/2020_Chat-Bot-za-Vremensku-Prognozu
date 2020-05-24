@@ -3,8 +3,8 @@ from tkinter import ttk
 import messaging
 import os
 from typing import Tuple, List
-from backend import api_key_and_url_doesnot_exist, set_key_and_url
-from input_parser import contains_API_KEY_and_URL, user_making_request
+from backend import api_key_and_url_not_present
+from input_parser import contains_API_KEY_and_URL, user_making_request, contains_help
 class ChatBotGUI(ttk.Frame):
 
     def __init__(self, root):
@@ -59,7 +59,7 @@ class ChatBotGUI(ttk.Frame):
         self.chat_history.append((None, messaging.display_welcome_message()))
         self.populate_chat()
 
-        if api_key_and_url_doesnot_exist():
+        if api_key_and_url_not_present():
             self.chat_history.append((None, messaging.missing_info_handler()))
             self.populate_chat()
 
@@ -68,24 +68,19 @@ class ChatBotGUI(ttk.Frame):
         if len(msg) == 0:
             return
         
+        messaging_response = None
 
-
-        if api_key_and_url_doesnot_exist() and msg != "help":
+        if api_key_and_url_not_present() and not contains_help(msg):
             if user_making_request(msg):
-                self.chat_history.append((None, messaging.missing_info_handler()))
-                self.populate_chat()
-                self.entry_send_message.delete(0, tk.END)
-                return
+                messaging_response = (None, messaging.missing_info_handler())
+            
+            elif contains_API_KEY_and_URL(msg) is None:
+                    messaging_response = (None, messaging.wrong_api_key_or_url_format())
+                    
 
-            result = contains_API_KEY_and_URL(msg)
-            if result is None:
-                self.chat_history.append((None, messaging.wrong_api_key_or_url_format()))
-                self.populate_chat()
-                self.entry_send_message.delete(0, tk.END)
-                return
-
-
-        messaging_response = messaging.receive_message_and_make_response(msg)
+        if messaging_response is None:
+            messaging_response = messaging.receive_message_and_make_response(msg)
+        
         self.chat_history.append(messaging_response)
         self.populate_chat()
         self.entry_send_message.delete(0, tk.END)

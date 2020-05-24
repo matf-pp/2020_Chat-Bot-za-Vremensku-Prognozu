@@ -24,7 +24,7 @@ class ChatHandler:
         return chat_response
     
     def missing_info_handler(self) -> str:
-        chat_response = f'\n{self.assign_message_info(self.chatbot)} .env file is missing or incomplete.\nPlease provide the application with your API KEY and URL in order to make\n requests. Enter them in format: KEY: your_key, URL: your_url.\n'
+        chat_response = f'\n{self.assign_message_info(self.chatbot)} .env file is missing or incomplete.\nPlease provide the application with your API KEY and URL in order to make\nrequests. Enter them in format: KEY: your_key, URL: your_url.\n\nCorrect formats are:\nAPI KEY: english alphabet letters and numbers\nURL: needs to start with: http://api.openweathermap.org/data/ and then API version should be added.\nFor more info, check help.\n'
         return chat_response
     
     def wrong_api_key_or_url_format(self) -> str:
@@ -98,10 +98,6 @@ class ChatHandler:
     def determine_user_response(self, user_msg: str) -> str:
         return self.get_user_response(user_msg)
 
-    def successful_update(self):
-        chat_response = f'\n{self.assign_message_info(self.chatbot)} API KEY and URL successfully updated!\n\n'
-        return chat_response
-
     def handle_response(self, response: ChatbotResponse, user_msg: str) -> Tuple[str, str]:
         chatbot_response = self.determine_chatbot_response(response)
         user_response = self.determine_user_response(user_msg)
@@ -118,9 +114,6 @@ def receive_message_and_make_response(user_msg: str) -> Tuple[str, str]:
 
 def missing_info_handler():
     return ChatHandler().missing_info_handler()
-
-def successful_update():
-    return ChatHandler().successful_update()
 
 def wrong_api_key_or_url_format():
     return ChatHandler().wrong_api_key_or_url_format()
