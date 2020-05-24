@@ -95,11 +95,11 @@ def contains_API_KEY_and_URL(user_input) -> Optional[Tuple[str, str]]:
     return None  
 
 def contains_valid_api_key_and_url(user_input: str) -> Optional[Tuple[str, str]]:
-    
-    if not contains_API_KEY_and_URL(user_input):
+    key_and_url = contains_API_KEY_and_URL(user_input) 
+    if not key_and_url:
         return None
 
-    key, url = contains_API_KEY_and_URL(user_input)
+    key, url = key_and_url
     #? Just check if we'll get 4** response, if that's the case, something is wrong with key and/or url
     req = urljoin(url, f"weather?q=Belgrade&appid={key}") 
 
@@ -137,7 +137,7 @@ def determine_response(user_input: str) -> ChatbotResponse:
     if params:
         return HelpString
 
-    key_and_url = contains_API_KEY_and_URL(user_input)
+    key_and_url = contains_valid_api_key_and_url(user_input)
     if key_and_url:
         return key_and_url    
 
